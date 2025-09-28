@@ -4,7 +4,7 @@ set -euo pipefail
 BIN_PATH="$HOME/agent.bin"
 LOG_FILE="$HOME/agent_setup.log"
 SERVICE_NAME="agent-client"
-VENV_BASE_DIR="$HOME_DIR/venvalgobn"
+VENV_BASE_DIR="$HOME/venvalgobn"
 REQUIREMENTS_PATH="$VENV_BASE_DIR/requirements.txt"
 AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v2.0.0/agent.bin"
 
