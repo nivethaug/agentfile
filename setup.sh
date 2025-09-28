@@ -63,10 +63,7 @@ else
     log "✅ Virtual environment already exists"
 fi
 
-# Step 3: Activate venv
-source "$VENV_BASE_DIR/bin/activate" || {
-    log "❌ Failed to activate virtualenv"; exit 1;
-}
+
 
 # Step 4: Write requirements.txt
 echo "$REQUIREMENTS" > "$REQUIREMENTS_PATH"
