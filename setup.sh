@@ -6,7 +6,7 @@ LOG_FILE="$HOME/agent_setup.log"
 SERVICE_NAME="agent-client"
 VENV_BASE_DIR="$HOME/venvalgobn"
 REQUIREMENTS_PATH="$VENV_BASE_DIR/requirements.txt"
-AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v2.0.0/agent.bin"
+AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v9.1.0/agent.bin"
 
 log(){ echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"; }
 
@@ -23,11 +23,24 @@ log "Using AGENT_ID=$AGENT_ID"
 # Install system deps
 if command -v apt >/dev/null 2>&1; then
   sudo apt update -y
-  sudo apt install -y nodejs npm curl ca-certificates python3 python3-pip python3-venv
+  sudo apt install -y nodejs npm ca-certificates python3 python3-pip python3-venv
 elif command -v yum >/dev/null 2>&1; then
-  sudo yum install -y nodejs npm curl ca-certificates python3 python3-pip
+  sudo yum install -y nodejs npm ca-certificates python3 python3-pip
 fi
 sudo npm install -g pm2
+
+# Ensure curl exists (auto-install if missing)
+if ! command -v curl >/dev/null 2>&1; then
+  log "⚠️ curl not found, installing..."
+  if command -v apt >/dev/null 2>&1; then
+    sudo apt install -y curl
+  elif command -v yum >/dev/null 2>&1; then
+    sudo yum install -y curl
+  else
+    log "❌ No package manager found to install curl."
+    exit 1
+  fi
+fi
 
 # Download agent binary
 log "⬇️ Downloading agent binary..."
@@ -55,7 +68,7 @@ log "📝 requirements.txt saved at $REQUIREMENTS_PATH"
 # Install Python packages inside venv
 log "📦 Installing Python packages..."
 pip install --upgrade pip
-pip install -r "$REQUIREMENTS_PATH"
+pip install -r "$REQUIREMENTS_PATH" || log "⚠️ Some packages failed, continuing..."
 
 # Start/Save PM2
 log "🚀 Starting agent..."
