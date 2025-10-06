@@ -1,12 +1,15 @@
 #!/bin/bash
 set -euo pipefail
 
-BIN_PATH="$HOME/agent.bin"
+PKG_PATH="$HOME/agent-pyc.tar.gz"
+EXTRACT_DIR="$HOME/agent"
 LOG_FILE="$HOME/agent_setup.log"
 SERVICE_NAME="agent-client"
 VENV_BASE_DIR="$HOME/venvalgobn"
 REQUIREMENTS_PATH="$VENV_BASE_DIR/requirements.txt"
-AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v9.1.0/agent.bin"
+
+# Replace with your GitHub tarball URL
+AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v9.1.0/agent-pyc.tar.gz"
 
 log(){ echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"; }
 
@@ -29,7 +32,7 @@ elif command -v yum >/dev/null 2>&1; then
 fi
 sudo npm install -g pm2
 
-# Ensure curl exists (auto-install if missing)
+# Ensure curl exists
 if ! command -v curl >/dev/null 2>&1; then
   log "⚠️ curl not found, installing..."
   if command -v apt >/dev/null 2>&1; then
@@ -42,10 +45,15 @@ if ! command -v curl >/dev/null 2>&1; then
   fi
 fi
 
-# Download agent binary
-log "⬇️ Downloading agent binary..."
-curl -fsSL "$AGENT_URL" -o "$BIN_PATH"
-chmod +x "$BIN_PATH"
+# Download tarball
+log "⬇️ Downloading agent package..."
+curl -fsSL "$AGENT_URL" -o "$PKG_PATH"
+
+# Extract package
+log "📦 Extracting agent package to $EXTRACT_DIR"
+rm -rf "$EXTRACT_DIR"
+mkdir -p "$EXTRACT_DIR"
+tar -xzf "$PKG_PATH" -C "$EXTRACT_DIR"
 
 # Create venv if missing
 if [ ! -d "$VENV_BASE_DIR" ]; then
@@ -59,22 +67,30 @@ fi
 log "🔑 Activating virtual environment..."
 source "$VENV_BASE_DIR/bin/activate"
 
-# Write requirements (includes pipreqs)
+# Write runtime requirements
 cat > "$REQUIREMENTS_PATH" <<EOF
-pipreqs
+python-socketio
+aiofiles
+psutil
+python-crontab
+python-dotenv
+httpx
+websockets
+aiohttp
 EOF
 log "📝 requirements.txt saved at $REQUIREMENTS_PATH"
 
-# Install Python packages inside venv
+# Install Python packages
 log "📦 Installing Python packages..."
 pip install --upgrade pip
 pip install -r "$REQUIREMENTS_PATH" || log "⚠️ Some packages failed, continuing..."
 
-# Start/Save PM2
+# Start with PM2
 log "🚀 Starting agent..."
 pm2 delete "$SERVICE_NAME" >/dev/null 2>&1 || true
 LC_ALL=C.UTF-8 LANG=C.UTF-8 AGENT_ID="$AGENT_ID" \
-pm2 start "$BIN_PATH" --name "$SERVICE_NAME"
+pm2 start "$VENV_BASE_DIR/bin/python" --name "$SERVICE_NAME" \
+  --cwd "$EXTRACT_DIR/agent" -- bootstrap.py
 pm2 save
 
 log "✅ Installed. Logs: pm2 logs $SERVICE_NAME"
