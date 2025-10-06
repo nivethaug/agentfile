@@ -9,7 +9,7 @@ VENV_BASE_DIR="$HOME/venvalgobn"
 REQUIREMENTS_PATH="$VENV_BASE_DIR/requirements.txt"
 
 # Replace with your GitHub tarball URL
-AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v9.1.0/agent-pyc.tar.gz"
+AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v2.1.0/agentpyc.tar.gz"
 
 log(){ echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"; }
 
