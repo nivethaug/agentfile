@@ -1,15 +1,15 @@
 #!/bin/bash
 set -euo pipefail
 
-PKG_PATH="$HOME/agent-pyc.tar.gz"
-EXTRACT_DIR="$HOME/agent"
 LOG_FILE="$HOME/agent_setup.log"
 SERVICE_NAME="agent-client"
 VENV_BASE_DIR="$HOME/venvalgobn"
 REQUIREMENTS_PATH="$VENV_BASE_DIR/requirements.txt"
+EXTRACT_DIR="$HOME/agent"
+AGENT_PATH="$EXTRACT_DIR/agent.py"
 
-# Replace with your GitHub tarball URL
-AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v2.1.0/agentpyc.tar.gz"
+# Direct URL to agent.py
+AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v2.1.4/agent.py"
 
 log(){ echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"; }
 
@@ -17,7 +17,7 @@ log "🚀 Starting Agent Setup"
 
 # Get Agent ID
 AGENT_ID="${1:-${AGENT_ID:-}}"
-if [ -z "$AGENT_ID" ]; then
+if [ -z "${AGENT_ID}" ]; then
   echo "❌ No AGENT_ID supplied. Use: AGENT_ID=agent-xxxx ./setup.sh (or pass as first arg)"
   exit 1
 fi
@@ -37,15 +37,14 @@ fi
 # Ensure pm2 installed
 sudo npm install -g pm2
 
-# Download tarball
-log "⬇️ Downloading agent package..."
-curl -fsSL "$AGENT_URL" -o "$PKG_PATH"
-
-# Extract package
-log "📦 Extracting agent package to $EXTRACT_DIR"
-rm -rf "$EXTRACT_DIR"
+# Prepare app dir
+log "📁 Preparing directory at $EXTRACT_DIR"
 mkdir -p "$EXTRACT_DIR"
-tar -xzf "$PKG_PATH" -C "$EXTRACT_DIR"
+
+# Download agent.py directly
+log "⬇️ Downloading agent.py to $AGENT_PATH"
+curl -fsSL "$AGENT_URL" -o "$AGENT_PATH"
+chmod +x "$AGENT_PATH"
 
 # Create venv if missing
 if [ ! -d "$VENV_BASE_DIR" ]; then
@@ -57,9 +56,10 @@ fi
 
 # Activate venv
 log "🔑 Activating virtual environment..."
+# shellcheck disable=SC1091
 source "$VENV_BASE_DIR/bin/activate"
 
-# Write runtime requirements
+# Write runtime requirements (adjust as needed)
 cat > "$REQUIREMENTS_PATH" <<EOF
 python-socketio
 aiofiles
@@ -77,12 +77,12 @@ log "📦 Installing Python packages..."
 pip install --upgrade pip
 pip install -r "$REQUIREMENTS_PATH" || log "⚠️ Some packages failed, continuing..."
 
-# Start with PM2
-log "🚀 Starting agent..."
+# Start with PM2 (runs agent.py directly)
+log "🚀 Starting agent with PM2..."
 pm2 delete "$SERVICE_NAME" >/dev/null 2>&1 || true
 LC_ALL=C.UTF-8 LANG=C.UTF-8 AGENT_ID="$AGENT_ID" \
 pm2 start "$VENV_BASE_DIR/bin/python" --name "$SERVICE_NAME" \
-  --cwd "$EXTRACT_DIR/agent" -- bootstrap.py
+  --cwd "$EXTRACT_DIR" -- "$AGENT_PATH"
 pm2 save
 
-log "✅ Installed. Logs: pm2 logs $SERVICE_NAME"
+log "✅ Installed. View logs with: pm2 logs $SERVICE_NAME"
