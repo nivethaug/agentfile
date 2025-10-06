@@ -23,12 +23,13 @@ if [ -z "${AGENT_ID}" ]; then
 fi
 log "Using AGENT_ID=$AGENT_ID"
 
-# Install system deps (includes curl early)
+# Install only minimal system deps (no desktop/X11 packages)
 if command -v apt >/dev/null 2>&1; then
   sudo apt update -y
-  sudo apt install -y curl nodejs npm ca-certificates python3 python3-pip python3-venv
+  sudo apt install -y --no-install-recommends \
+    curl ca-certificates python3 python3-pip python3-venv nodejs npm
 elif command -v yum >/dev/null 2>&1; then
-  sudo yum install -y curl nodejs npm ca-certificates python3 python3-pip
+  sudo yum install -y curl ca-certificates python3 python3-pip nodejs npm
 else
   log "❌ No supported package manager found (apt or yum)."
   exit 1
