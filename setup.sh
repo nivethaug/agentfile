@@ -23,27 +23,19 @@ if [ -z "$AGENT_ID" ]; then
 fi
 log "Using AGENT_ID=$AGENT_ID"
 
-# Install system deps
+# Install system deps (includes curl early)
 if command -v apt >/dev/null 2>&1; then
   sudo apt update -y
-  sudo apt install -y nodejs npm ca-certificates python3 python3-pip python3-venv
+  sudo apt install -y curl nodejs npm ca-certificates python3 python3-pip python3-venv
 elif command -v yum >/dev/null 2>&1; then
-  sudo yum install -y nodejs npm ca-certificates python3 python3-pip
+  sudo yum install -y curl nodejs npm ca-certificates python3 python3-pip
+else
+  log "❌ No supported package manager found (apt or yum)."
+  exit 1
 fi
-sudo npm install -g pm2
 
-# Ensure curl exists
-if ! command -v curl >/dev/null 2>&1; then
-  log "⚠️ curl not found, installing..."
-  if command -v apt >/dev/null 2>&1; then
-    sudo apt install -y curl
-  elif command -v yum >/dev/null 2>&1; then
-    sudo yum install -y curl
-  else
-    log "❌ No package manager found to install curl."
-    exit 1
-  fi
-fi
+# Ensure pm2 installed
+sudo npm install -g pm2
 
 # Download tarball
 log "⬇️ Downloading agent package..."
