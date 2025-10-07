@@ -70,6 +70,7 @@ python-dotenv
 httpx
 websockets
 aiohttp
+pipreqs
 EOF
 log "📝 requirements.txt saved at $REQUIREMENTS_PATH"
 

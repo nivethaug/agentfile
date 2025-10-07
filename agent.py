@@ -92,7 +92,7 @@ def generate_requirements(script_dir, req_output_path, logger=None):
             else:
                 print(f"[⛔] pipreqs failed: {err}")
         else:
-            msg = f"[📦] requirements.txt generated at {req_output_path}"
+            msg = f"[📦] install.txt generated at {req_output_path}"
             if logger:
                 logger.info(msg)
             else:
@@ -277,10 +277,16 @@ async def on_run_dependency(data):
 
         # ✅ Install dependencies
         pip_path = os.path.join(user_venv_path, "bin", "pip")
-        subprocess.run([pip_path, "install", "-r", req_output_path], check=True)
+        res=subprocess.run([pip_path, "install", "-r", req_output_path], capture_output=True, text=True)
         print(f"[✅] Dependencies installed in {user_venv_path}")
         logger.info(f"[✅] Dependencies installed in {user_venv_path}")
-
+        if res.returncode != 0:
+            err = res.stderr.strip() or res.stdout.strip()
+            logger.exception(err)
+            return {
+                "status": "error",
+                "log": f"run_dependency failed: {str(err)}"
+                }
         return {
             "status": "success",
             "log": "[✅] Dependencies installed "
@@ -321,11 +327,17 @@ async def on_run_install_dependency(data):
 
         # ✅ Install dependencies
         pip_path = os.path.join(user_venv_path, "bin", "pip")
-        subprocess.run([pip_path, "install", "-r", req_output_path], check=True)
+        res = subprocess.run([pip_path, "install", "-r", req_output_path], capture_output=True, text=True)
         msg = f"[✅] Dependencies installed in {user_venv_path}"
         print(msg)
         logger.info(msg)
-
+        if res.returncode != 0:
+            err = res.stderr.strip() or res.stdout.strip()
+            logger.exception(err)
+            return {
+                "status": "error",
+                "log": f"run_dependency failed: {str(err)}"
+            }
         return {
             "status": "success",
             "log": msg
