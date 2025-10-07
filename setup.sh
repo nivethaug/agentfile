@@ -9,7 +9,7 @@ EXTRACT_DIR="$HOME/agent"
 AGENT_PATH="$EXTRACT_DIR/agent.py"
 
 # Direct URL to agent.py
-AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v2.1.4/agent.py"
+AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v2.1.8/agent.py"
 
 log(){ echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"; }
 
