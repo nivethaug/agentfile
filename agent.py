@@ -23,7 +23,7 @@ load_dotenv()  # ✅ Make sure this is called before os.getenv()
 
 # === CONFIG ===
 SERVER_URL = "https://agentapi.algobillionaire.com"
-AGENT_ID = os.getenv('AGENT_ID', 'agent_12345')
+AGENT_ID = os.getenv('AGENT_ID', 'agent-42e200f3-9cd6-44ee-a66a-0bab14d3490c')
 AUTH_TOKEN = "bf6c405b-2901-48f3-8598-b6f1ef0b2e5a"
 HOME_DIR = os.path.expanduser("~")
 SCRIPT_DIR = os.path.join(HOME_DIR, "scripts")
@@ -130,7 +130,6 @@ async def on_upload_script(data):
         try:
             # Safely decode escaped string (works for content like `"line1\\nline2"` etc.)
             cleaned = ast.literal_eval(f'"{content}"')
-            print(cleaned)
         except Exception as e:
             raise ValueError("Failed to decode script content") from e
         # ✅ Save script
@@ -151,17 +150,17 @@ async def on_upload_script(data):
         generate_requirements(script_dir, req_output_path, logger)
         logger.info(f"[📦] install.txt generated at {req_output_path}")
 
-        # ✅ Install dependencies
-        pip_path = os.path.join(user_venv_path, "bin", "pip")
-        install_error = ''
-        res = subprocess.run([pip_path, "install", "-r", req_output_path], capture_output=True, text=True)
-        if res.returncode != 0:
-            err = res.stderr.strip() or res.stdout.strip()
-            logger.error(f"[⚠️] Some dependencies failed to install: {err}")
-            install_error = f"Some dependencies failed to install: {err}"
-        else:
-            logger.info(f"[✅] Dependencies installed in {user_venv_path}")
-            print(f"[✅] Dependencies installed in {user_venv_path}")
+        # # ✅ Install dependencies
+        # pip_path = os.path.join(user_venv_path, "bin", "pip")
+        # install_error = ''
+        # res = subprocess.run([pip_path, "install", "-r", req_output_path], capture_output=True, text=True)
+        # if res.returncode != 0:
+        #     err = res.stderr.strip() or res.stdout.strip()
+        #     logger.error(f"[⚠️] Some dependencies failed to install: {err}")
+        #     install_error = f"Some dependencies failed to install: {err}"
+        # else:
+        #     logger.info(f"[✅] Dependencies installed in {user_venv_path}")
+        #     print(f"[✅] Dependencies installed in {user_venv_path}")
 
 
         return {
@@ -170,8 +169,8 @@ async def on_upload_script(data):
             "size": content_size,
             "script_id": script_id,
             "installed_path": req_output_path,
-            "install_error": install_error,
-            "log": f"Script {filename} uploaded successfully{'and dependencies installed' if not install_error else ' with some install errors'} "
+            "install_error": '',
+            "log": f"Script {filename} uploaded successfully{'and dependencies file created as install.txt' } "
         }
 
     except Exception as e:
@@ -300,8 +299,8 @@ async def on_run_dependency(data):
             "log": f"run_dependency failed: {str(e)}"
         }
 
-@sio.on("run_install_dependency")
-async def on_run_install_dependency(data):
+@sio.on("run_install_dependency_r")
+async def on_run_install_dependency_r(data):
     try:
         user_id = data['agent_id']
         script_dir = data['filepath']
@@ -351,6 +350,116 @@ async def on_run_install_dependency(data):
             "status": "error",
             "log": f"run_dependency failed: {str(e)}"
         }
+
+async def _background_install(
+    sio,
+    *,
+    user_id: str,
+    script_dir: str,
+    script_id: str,
+    venv_base_dir: str,
+    logger,
+):
+    try:
+        user_venv_path = os.path.join(venv_base_dir, user_id)
+        req_output_path = os.path.join(script_dir, "install.txt")
+
+        if not os.path.exists(req_output_path):
+            msg = f"[⛔] install.txt not found at {req_output_path}"
+            logger.error(msg)
+            await sio.emit("install_done", {
+                "status": "error",
+                "agent_id": user_id,
+                "script_id": script_id,
+                "log": msg,
+            })
+            return
+
+        # Make sure the venv (and pip) exist
+        pip_path = os.path.join(user_venv_path, "bin", "pip")
+
+        cmd = [pip_path, "install", "-r", req_output_path]
+        logger.info(f"[▶️] Starting dependency install: {' '.join(cmd)}")
+
+        # Run pip as an asyncio subprocess and stream combined stdout/stderr
+        proc = await asyncio.create_subprocess_exec(
+            *cmd,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.STDOUT,
+            cwd=script_dir,
+            env={**os.environ, "PIP_DISABLE_PIP_VERSION_CHECK": "1"},
+        )
+
+        # Stream logs line-by-line
+        assert proc.stdout is not None
+        while True:
+            line = await proc.stdout.readline()
+            if not line:
+                break
+            text = line.decode(errors="replace").rstrip()
+            if text:
+                logger.info(text)
+                await sio.emit("install_log", {
+                    "agent_id": user_id,
+                    "script_id": script_id,
+                    "line": text
+                })
+
+        rc = await proc.wait()
+        if rc == 0:
+            msg = f"[✅] Dependencies installed in {user_venv_path}"
+            logger.info(msg)
+            await sio.emit("install_done", {
+                "status": "success",
+                "agent_id": user_id,
+                "script_id": script_id,
+                "log": msg
+            })
+        else:
+            msg = f"[⛔] pip exited with code {rc}"
+            logger.error(msg)
+            await sio.emit("install_done", {
+                "status": "error",
+                "agent_id": user_id,
+                "script_id": script_id,
+                "log": msg
+            })
+
+    except Exception as e:
+        msg = f"[⛔ run_dependency error]: {e}"
+        logger.exception(msg)
+        await sio.emit("install_done", {
+            "status": "error",
+            "agent_id": user_id,
+            "script_id": script_id,
+            "log": msg
+        })
+
+
+@sio.on("run_install_dependency")
+async def on_run_install_dependency(data):
+    user_id = data["agent_id"]
+    script_dir = data["filepath"]
+    script_id = data.get("script_id", "unknown")
+
+    logger = setup_logger(AGENT_ID, script_id, "run")
+
+    # Fire-and-forget background task
+    asyncio.create_task(_background_install(
+        sio,
+        user_id=user_id,
+        script_dir=script_dir,
+        script_id=script_id,
+        venv_base_dir=VENV_BASE_DIR,
+        logger=logger,
+    ))
+
+    # Return immediately
+    return {
+        "status": "success",
+        "log": f"[🚀] Dependencies installation started. Check logs for progress."
+    }    
+
 @sio.on("upload_file")
 async def on_upload_file(data):
     try:
