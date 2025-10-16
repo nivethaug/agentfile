@@ -75,10 +75,10 @@ def run_script_job(agent_id: str, script_id: str, filepath: str, cron_id: str | 
 
         start_time = datetime.now()
         logger.info(f"=== Cron run started for {filepath} ===")
-
+        venv_dir, python_bin, _ = venv_paths(VENV_BASE_DIR, agent_id)
         with open(log_path, "a", encoding="utf-8") as log_file:
             process = subprocess.Popen(
-                [sys.executable, filepath],
+                [python_bin, "-u", filepath],   # <- pass command as a list
                 stdout=log_file,
                 stderr=subprocess.STDOUT,
                 cwd=os.path.dirname(filepath),
@@ -526,19 +526,43 @@ async def on_run_script(data):
 # -------------------------
 def start_windows_detached(python_bin: str, filepath: str, log_path: str) -> int:
     """
-    Start a detached background python process on Windows, redirecting stdout/stderr to log_path.
-    Returns PID.
+    Start a detached background Python process on Windows (no console window).
+    Stdout and stderr are redirected to the provided log file.
+    Works identically to Linux version regarding logs.
     """
+
+    # Ensure log directory exists
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
-    log_f = open(log_path, "ab", buffering=0)
-    creationflags = getattr(subprocess, "DETACHED_PROCESS", 0) | getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0) | getattr(subprocess, "CREATE_NO_WINDOW", 0)
+
+    # Open log file in append binary mode (same as your agent logging)
+    log_f = open(log_path, "ab")
+
+    # Try to find pythonw.exe (console-less Python interpreter)
+    python_dir = os.path.dirname(python_bin)
+    pythonw = os.path.join(python_dir, "pythonw.exe")
+    interpreter = pythonw if os.path.exists(pythonw) else python_bin
+
+    # Windows creation flags:
+    # - CREATE_NO_WINDOW hides console for python.exe
+    # - DETACHED_PROCESS + CREATE_NEW_PROCESS_GROUP detaches fully from parent
+    creationflags = 0
+    if os.name == "nt":
+        creationflags = (
+            getattr(subprocess, "CREATE_NO_WINDOW", 0)
+            | getattr(subprocess, "DETACHED_PROCESS", 0)
+            | getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
+        )
+
+    # Run process silently in background
     proc = subprocess.Popen(
-        [python_bin, "-u", filepath],
-        stdout=log_f,
-        stderr=subprocess.STDOUT,
-        stdin=subprocess.DEVNULL,
-        creationflags=creationflags
+        [interpreter, "-u", filepath],
+        stdout=log_f,                    # send all output to run.log
+        stderr=subprocess.STDOUT,        # merge stderr into same log
+        stdin=subprocess.DEVNULL,        # no input
+        creationflags=creationflags,     # prevent console popup
+        close_fds=True,                  # fully detached
     )
+
     return proc.pid
 
 @sio.on("setup_background")
