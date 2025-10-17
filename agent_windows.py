@@ -29,6 +29,15 @@ import traceback
 # SQLite for some helpers
 import sqlite3
 
+
+import re
+import tempfile
+import zipfile
+import pathlib
+from pathlib import Path
+import aiohttp
+from typing import Tuple, List
+
 # -------------------------
 # Configuration / Defaults
 # -------------------------
@@ -57,6 +66,174 @@ sio = socketio.AsyncClient()
 
 
 agent_logger = logging.getLogger("agent")
+
+
+
+# ---------------------------
+# Windows-safe helpers
+# ---------------------------
+def _sanitize_part(part: str) -> str:
+    """
+    Replace unsafe characters and trim. Keep it simple and Windows-friendly.
+    """
+    # allow letters, numbers, dot, underscore, hyphen and space
+    clean = re.sub(r'[^A-Za-z0-9._\- ]+', '_', part)
+    # trim leading/trailing spaces and dots (windows disallows trailing dot)
+    clean = clean.strip().rstrip('.')
+    # limit length to reasonable (e.g., 150)
+    if len(clean) > 150:
+        clean = clean[:150]
+    return clean
+
+def _safe_join(base: str, *paths: str) -> str:
+    """
+    Join base and paths safely, preventing path traversal.
+    Uses os.path.commonpath for robust check on Windows and POSIX.
+    Returns absolute normalized path.
+    """
+    # Create absolute normalized paths
+    base_abs = os.path.abspath(base)
+    candidate = os.path.abspath(os.path.join(base_abs, *paths))
+    try:
+        # On Windows commonpath is case-insensitive for paths on same drive.
+        common = os.path.commonpath([base_abs, candidate])
+    except ValueError:
+        # different drives -> disallow
+        raise ValueError("Attempted path traversal or cross-drive path")
+    if common != base_abs:
+        raise ValueError("Attempted path traversal")
+    return candidate
+
+async def _download_zip(session: aiohttp.ClientSession, url: str, max_bytes: int) -> Tuple[str, int]:
+    """
+    Download a remote file into a temporary file (Windows-safe).
+    Returns (temp_filename, total_bytes).
+    """
+    # NamedTemporaryFile on Windows must be closed before reuse by zipfile,
+    # so we create it and return its name after writing and closing.
+    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".zip")
+    tmp_name = tmp.name
+    total = 0
+    try:
+        async with session.get(url) as resp:
+            resp.raise_for_status()
+            clen = resp.headers.get("Content-Length")
+            if clen is not None:
+                try:
+                    if int(clen) > max_bytes:
+                        raise ValueError(f"Remote file too large ({clen} bytes). Limit is {max_bytes} bytes.")
+                except Exception:
+                    pass
+
+            # write in chunks
+            async for chunk in resp.content.iter_chunked(64 * 1024):
+                if not chunk:
+                    break
+                total += len(chunk)
+                if total > max_bytes:
+                    raise ValueError(f"Downloaded file exceeds maximum size ({max_bytes} bytes).")
+                tmp.write(chunk)
+
+        tmp.flush()
+        tmp.close()
+        return tmp_name, total
+    except Exception:
+        try:
+            tmp.close()
+        except Exception:
+            pass
+        try:
+            os.unlink(tmp_name)
+        except Exception:
+            pass
+        raise
+
+def _safe_extract_zip(zip_path: str, dest_dir: str) -> List[str]:
+    """
+    Extract zip safely into dest_dir.
+    Returns list of relative paths extracted (relative to dest_dir).
+    """
+    extracted = []
+    # ensure dest_dir exists
+    os.makedirs(dest_dir, exist_ok=True)
+
+    with zipfile.ZipFile(zip_path, 'r') as z:
+        for info in z.infolist():
+            name = info.filename
+
+            # Reject absolute paths
+            if name.startswith('/') or name.startswith('\\'):
+                raise ValueError("Absolute paths in zip are not allowed")
+
+            # Normalize path separators and remove any leading/trailing slashes
+            # Use PurePosixPath to split ZIP internal path (zip uses forward slash semantics).
+            parts = [p for p in pathlib.PurePosixPath(name).parts if p not in ('.', '')]
+            if not parts:
+                continue
+
+            # sanitize every path component
+            parts = [_sanitize_part(p) for p in parts]
+
+            # Build a safe joined path under dest_dir
+            dest_path = _safe_join(dest_dir, *parts)
+
+            # If entry is a directory, ensure it exists and continue
+            if info.is_dir() or name.endswith('/'):
+                os.makedirs(dest_path, exist_ok=True)
+                continue
+
+            # Ensure parent exists
+            parent = os.path.dirname(dest_path)
+            os.makedirs(parent, exist_ok=True)
+
+            # Extract file content safely (read binary and write)
+            with z.open(info, 'r') as srcf, open(dest_path, 'wb') as dstf:
+                shutil.copyfileobj(srcf, dstf)
+
+            # On POSIX, try to preserve executable bit if present in zip external_attr.
+            # On Windows, skip chmod as it has limited meaning.
+            try:
+                if os.name != "nt":
+                    # external_attr >> 16 stores unix permissions for zipinfo in many zips
+                    perm = (info.external_attr >> 16) & 0o777
+                    if perm:
+                        try:
+                            os.chmod(dest_path, perm)
+                        except Exception:
+                            pass
+                else:
+                    # Optionally, for Windows, set the file to be writable (remove read-only flag)
+                    try:
+                        os.chmod(dest_path, 0o666)
+                    except Exception:
+                        pass
+            except Exception:
+                pass
+
+            # compute relative path (use os.path.relpath)
+            rel = os.path.relpath(dest_path, dest_dir)
+            extracted.append(rel)
+
+    return extracted
+
+def _gather_files_info(base_dir: str, relative_paths: list):
+    """
+    Build list of dicts: filename, file_path (absolute), file_size (bytes), file_type (ext)
+    Only includes files (not directories).
+    """
+    files = []
+    for rel in relative_paths:
+        full = os.path.join(base_dir, rel)
+        if os.path.isfile(full):
+            size = os.path.getsize(full)
+            suffix = pathlib.Path(full).suffix or ''
+            files.append({
+                "filename": os.path.basename(full),
+                "file_path": full,
+                "file_size": size,
+                "file_type": suffix
+            })
+    return files
 
 def run_script_job(agent_id: str, script_id: str, filepath: str, cron_id: str | None = None):
     """
@@ -164,6 +341,102 @@ def _make_job_id(instance_tag: str | None = None):
     if instance_tag:
         return f"{base}_{instance_tag}"
     return base
+
+
+@sio.on("upload_script_from_url")
+async def on_upload_script_from_url(data):
+    """
+    Expecting:
+    {
+      "agent_id": "<user id>",
+      "url": "https://.../archive.zip",
+      "filename_hint": "optional-filename-or-root-folder-name"
+    }
+    """
+    try:
+        user_id = data['agent_id']
+        url = data['url']
+        filename_hint = data.get('filename_hint', 'uploaded_zip')
+
+        # create unique script folder
+        script_id = str(uuid.uuid4())
+        script_dir = os.path.join(SCRIPT_DIR, user_id, script_id)
+        os.makedirs(script_dir, exist_ok=True)
+
+        logger = setup_logger(user_id, script_id, "run")
+        logger.info(f"[📥] Downloading ZIP from URL: {url}")
+
+        async with aiohttp.ClientSession() as session:
+            try:
+                zip_path, total_bytes = await _download_zip(session, url, MAX_FILE_SIZE_BYTES)
+            except Exception as e:
+                logger.error(f"[⛔] Download failed: {e}")
+                return {
+                    "status": "error",
+                    "log": f"Download failed: {str(e)}"
+                }
+
+        logger.info(f"[📥] ZIP downloaded ({total_bytes} bytes) to temp: {zip_path}")
+
+        try:
+            if not zipfile.is_zipfile(zip_path):
+                raise ValueError("Downloaded file is not a valid ZIP archive.")
+        except Exception as e:
+            try:
+                os.unlink(zip_path)
+            except Exception:
+                pass
+            logger.error(f"[⛔] Invalid ZIP: {e}")
+            return {
+                "status": "error",
+                "log": f"Invalid ZIP archive: {str(e)}"
+            }
+
+        try:
+            extracted_files = _safe_extract_zip(zip_path, script_dir)
+        except Exception as e:
+            try:
+                shutil.rmtree(script_dir, ignore_errors=True)
+            except Exception:
+                pass
+            try:
+                os.unlink(zip_path)
+            except Exception:
+                pass
+            logger.error(f"[⛔] Extraction failed: {e}")
+            return {
+                "status": "error",
+                "log": f"Extraction failed: {str(e)}"
+            }
+
+        try:
+            os.unlink(zip_path)
+        except Exception:
+            pass
+
+        # Build files array with metadata
+        files_meta = _gather_files_info(script_dir, extracted_files)
+
+        logger.info(f"[✅] Extracted {len(extracted_files)} paths into {script_dir}")
+        print(f"[📥] ZIP saved and extracted to: {script_dir} ({total_bytes} bytes)")
+
+        return {
+            "status": "success",
+            "path": script_dir,
+            "size": total_bytes,
+            "script_id": script_id,
+            "extracted_files": extracted_files,  # relative paths
+            "files": files_meta,                 # detailed metadata
+            "log": f"ZIP downloaded and extracted to {script_dir}"
+        }
+
+    except Exception as e:
+        print(f"[⛔ upload_script_from_url error]: {e}")
+        return {
+            "status": "error",
+            "log": f"Upload-from-url failed: {str(e)}"
+        }
+
 
 # -------------------------
 # Upload / Clone / File IO
