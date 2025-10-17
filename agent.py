@@ -12,6 +12,13 @@ import aiofiles
 import shutil
 from dotenv import load_dotenv
 import os
+import pathlib
+from pathlib import Path
+import aiohttp
+import tempfile
+import zipfile
+import re
+
 PM2_PROCESS_PREFIX = "bg"
 
 
@@ -178,6 +185,195 @@ async def on_upload_script(data):
         return {
             "status": "error",
             "log": f"Upload failed: {str(e)}"
+        }
+
+
+
+def _sanitize_part(part: str) -> str:
+    part = re.sub(r'[^A-Za-z0-9._\- ]+', '_', part)
+    return part.strip()
+
+def _safe_join(base: str, *paths: str) -> str:
+    final_path = os.path.abspath(os.path.join(base, *paths))
+    base_abs = os.path.abspath(base)
+    if not final_path.startswith(base_abs + os.sep) and final_path != base_abs:
+        raise ValueError("Attempted path traversal")
+    return final_path
+
+async def _download_zip(session: aiohttp.ClientSession, url: str, max_bytes: int):
+    temp = tempfile.NamedTemporaryFile(delete=False, suffix=".zip")
+    total = 0
+    try:
+        async with session.get(url) as resp:
+            resp.raise_for_status()
+            clen = resp.headers.get("Content-Length")
+            if clen is not None:
+                try:
+                    if int(clen) > max_bytes:
+                        raise ValueError(f"Remote file too large ({clen} bytes). Limit is {max_bytes} bytes.")
+                except Exception:
+                    pass
+
+            async for chunk in resp.content.iter_chunked(64 * 1024):
+                if not chunk:
+                    break
+                total += len(chunk)
+                if total > max_bytes:
+                    raise ValueError(f"Downloaded file exceeds maximum size ({max_bytes} bytes).")
+                temp.write(chunk)
+        temp.flush()
+        temp.close()
+        return temp.name, total
+    except Exception:
+        try:
+            temp.close()
+            os.unlink(temp.name)
+        except Exception:
+            pass
+        raise
+
+def _safe_extract_zip(zip_path: str, dest_dir: str):
+    extracted = []
+    with zipfile.ZipFile(zip_path, 'r') as z:
+        for info in z.infolist():
+            name = info.filename
+            if name.startswith('/') or name.startswith('\\'):
+                raise ValueError("Absolute paths in zip are not allowed")
+            parts = [p for p in pathlib.PurePosixPath(name).parts if p not in ('.', '')]
+            if not parts:
+                continue
+            parts = [_sanitize_part(p) for p in parts]
+            dest_path = _safe_join(dest_dir, *parts)
+            if info.is_dir():
+                os.makedirs(dest_path, exist_ok=True)
+                continue
+            parent = os.path.dirname(dest_path)
+            os.makedirs(parent, exist_ok=True)
+            with z.open(info, 'r') as srcf, open(dest_path, 'wb') as dstf:
+                shutil.copyfileobj(srcf, dstf)
+            try:
+                # check first two bytes for shebang
+                with open(dest_path, 'rb') as fh:
+                    head = fh.read(2)
+                if parts[-1].endswith(('.sh', '.py', '.pl')) or head == b'#!':
+                    os.chmod(dest_path, 0o755)
+            except Exception:
+                pass
+            rel = os.path.relpath(dest_path, dest_dir)
+            extracted.append(rel)
+    return extracted
+
+def _gather_files_info(base_dir: str, relative_paths: list):
+    """
+    Build list of dicts: filename, file_path (rel), file_size (bytes), file_type (ext)
+    Only includes files (not directories).
+    """
+    files = []
+    for rel in relative_paths:
+        full = os.path.join(base_dir, rel)
+        if os.path.isfile(full):
+            size = os.path.getsize(full)
+            suffix = pathlib.Path(full).suffix or ''
+            files.append({
+                "filename": os.path.basename(full),
+                "file_path": full,            # relative to returned path
+                "file_size": size,
+                "file_type": suffix
+            })
+    return files
+
+@sio.on("upload_script_from_url")
+async def on_upload_script_from_url(data):
+    """
+    Expecting:
+    {
+      "agent_id": "<user id>",
+      "url": "https://.../archive.zip",
+      "filename_hint": "optional-filename-or-root-folder-name"
+    }
+    """
+    try:
+        user_id = data['agent_id']
+        url = data['url']
+        filename_hint = data.get('filename_hint', 'uploaded_zip')
+
+        # create unique script folder
+        script_id = str(uuid.uuid4())
+        script_dir = os.path.join(SCRIPT_DIR, user_id, script_id)
+        os.makedirs(script_dir, exist_ok=True)
+
+        logger = setup_logger(user_id, script_id, "run")
+        logger.info(f"[📥] Downloading ZIP from URL: {url}")
+
+        async with aiohttp.ClientSession() as session:
+            try:
+                zip_path, total_bytes = await _download_zip(session, url, MAX_FILE_SIZE_BYTES)
+            except Exception as e:
+                logger.error(f"[⛔] Download failed: {e}")
+                return {
+                    "status": "error",
+                    "log": f"Download failed: {str(e)}"
+                }
+
+        logger.info(f"[📥] ZIP downloaded ({total_bytes} bytes) to temp: {zip_path}")
+
+        try:
+            if not zipfile.is_zipfile(zip_path):
+                raise ValueError("Downloaded file is not a valid ZIP archive.")
+        except Exception as e:
+            try:
+                os.unlink(zip_path)
+            except Exception:
+                pass
+            logger.error(f"[⛔] Invalid ZIP: {e}")
+            return {
+                "status": "error",
+                "log": f"Invalid ZIP archive: {str(e)}"
+            }
+
+        try:
+            extracted_files = _safe_extract_zip(zip_path, script_dir)
+        except Exception as e:
+            try:
+                shutil.rmtree(script_dir, ignore_errors=True)
+            except Exception:
+                pass
+            try:
+                os.unlink(zip_path)
+            except Exception:
+                pass
+            logger.error(f"[⛔] Extraction failed: {e}")
+            return {
+                "status": "error",
+                "log": f"Extraction failed: {str(e)}"
+            }
+
+        try:
+            os.unlink(zip_path)
+        except Exception:
+            pass
+
+        # Build files array with metadata
+        files_meta = _gather_files_info(script_dir, extracted_files)
+
+        logger.info(f"[✅] Extracted {len(extracted_files)} paths into {script_dir}")
+        print(f"[📥] ZIP saved and extracted to: {script_dir} ({total_bytes} bytes)")
+
+        return {
+            "status": "success",
+            "path": script_dir,
+            "size": total_bytes,
+            "script_id": script_id,
+            "extracted_files": extracted_files,  # relative paths
+            "files": files_meta,                 # detailed metadata
+            "log": f"ZIP downloaded and extracted to {script_dir}"
+        }
+
+    except Exception as e:
+        print(f"[⛔ upload_script_from_url error]: {e}")
+        return {
+            "status": "error",
+            "log": f"Upload-from-url failed: {str(e)}"
         }
 
 
