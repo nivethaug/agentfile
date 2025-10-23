@@ -245,6 +245,16 @@ async def upload_script(payload: dict):
         raise HTTPException(status_code=404, detail="Agent not found")
     except asyncio.TimeoutError:
         raise HTTPException(status_code=504, detail="Agent response timeout")
+
+@fastapp.post("/upload_script_zip")
+async def upload_script_zip(payload: dict):
+    try:
+        res = await sio.call("upload_script_zip", payload, to=agents[payload["agent_id"]]["sid"])
+        return res
+    except KeyError:
+        raise HTTPException(status_code=404, detail="Agent not found")
+    except asyncio.TimeoutError:
+        raise HTTPException(status_code=504, detail="Agent response timeout")
     
 @fastapp.post("/upload_script_from_url")
 async def upload_script_from_url(payload: dict):

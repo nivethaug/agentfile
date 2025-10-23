@@ -342,7 +342,94 @@ def _make_job_id(instance_tag: str | None = None):
         return f"{base}_{instance_tag}"
     return base
 
+@sio.on("upload_script_zip")
+async def on_upload_script_zip(data):
+    """
+    Accepts only ZIP payloads:
+    {
+      "agent_id": "<user id>",
+      "file_b64": "<BASE64 ZIP>",
+      "filename_hint": "optional-root-folder-or-name",
+      "size": 12345   # optional client hint
+    }
+    """
+    try:
+        user_id = data.get("agent_id")
+        if not user_id:
+            return {"status": "error", "log": "Missing 'agent_id'."}
 
+        filename_hint = data.get("filename_hint", "uploaded_zip")
+        client_size_hint = data.get("size")
+
+        # Optional pre-check
+        if isinstance(client_size_hint, int) and client_size_hint > MAX_FILE_SIZE_BYTES:
+            return {"status": "error", "log": f"File too large (client-reported): {client_size_hint} bytes."}
+
+        file_b64 = data.get("file_b64")
+        if not file_b64:
+            return {"status": "error", "log": "Missing 'file_b64' field."}
+
+        # Decode base64
+        try:
+            zip_bytes = base64.b64decode(file_b64)
+        except Exception as e:
+            return {"status": "error", "log": f"Failed to decode base64: {str(e)}"}
+
+        total_bytes = len(zip_bytes)
+        if total_bytes == 0 or total_bytes > MAX_FILE_SIZE_BYTES:
+            return {"status": "error", "log": f"File size invalid: {total_bytes} bytes."}
+
+        # Create unique script folder
+        script_id = str(uuid.uuid4())
+        script_dir = os.path.join(SCRIPT_DIR, user_id, script_id)
+        os.makedirs(script_dir, exist_ok=True)
+        logger = setup_logger(user_id, script_id, "run")
+        logger.info(f"[📥] Receiving ZIP payload ({total_bytes} bytes)")
+
+        # Write temp ZIP
+        temp_zip_path = os.path.join(tempfile.gettempdir(), f"{uuid.uuid4()}.zip")
+        with open(temp_zip_path, "wb") as f:
+            f.write(zip_bytes)
+
+        # Validate ZIP
+        if not zipfile.is_zipfile(temp_zip_path):
+            os.unlink(temp_zip_path)
+            shutil.rmtree(script_dir, ignore_errors=True)
+            return {"status": "error", "log": "Uploaded file is not a valid ZIP."}
+
+        # Extract safely
+        extracted_files = _safe_extract_zip(temp_zip_path, script_dir)
+        os.unlink(temp_zip_path)
+
+        # Create venv per user
+        user_venv_path = os.path.join(VENV_BASE_DIR, user_id)
+        if not os.path.exists(user_venv_path):
+            subprocess.run(["python3", "-m", "venv", user_venv_path], check=True)
+            logger.info(f"[✅] Created venv for user: {user_id}")
+
+        # Generate install.txt
+        req_output_path = os.path.join(script_dir, "install.txt")
+
+        # Gather metadata
+        files_meta = _gather_files_info(script_dir, extracted_files)
+
+        return {
+            "status": "success",
+            "path": script_dir,
+            "size": total_bytes,
+            "script_id": script_id,
+            "extracted_files": extracted_files,
+            "files": files_meta,
+            "installed_path": req_output_path,
+            "install_error": "",
+            "log": f"ZIP '{filename_hint}' uploaded and extracted."
+        }
+
+    except Exception as e:
+        try: shutil.rmtree(script_dir, ignore_errors=True)
+        except Exception: pass
+        return {"status": "error", "log": f"Upload failed: {str(e)}"}
+    
 @sio.on("upload_script_from_url")
 async def on_upload_script_from_url(data):
     """
