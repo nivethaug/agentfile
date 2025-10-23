@@ -4,7 +4,7 @@
 
 param(
   [string]$AgentId = $env:AGENT_ID,
-  [string]$AgentUrl = 'https://github.com/nivethaug/agentfile/releases/download/v1.0.9/agent_windows.py'
+  [string]$AgentUrl = 'https://github.com/nivethaug/agentfile/releases/download/v10.0.2/agent_windows.py'
 )
 
 Set-StrictMode -Version Latest
@@ -90,7 +90,14 @@ if (-not (Test-Path (Join-Path $VenvBaseDir 'Scripts\python.exe'))) {
   Log 'Virtual environment already exists.'
 }
 
-$Pip   = Join-Path $VenvBaseDir 'Scripts\pip.exe'
+$Pip = Join-Path $VenvBaseDir "Scripts\pip.exe"
+if (-not (Test-Path $Pip)) {
+    Write-Host "pip not found, reinstalling venv..."
+    & $Python -m venv $VenvBaseDir
+}
+& "$VenvBaseDir\Scripts\python.exe" -m ensurepip
+& "$VenvBaseDir\Scripts\python.exe" -m pip install --upgrade pip
+& "$VenvBaseDir\Scripts\python.exe" -m pip install -r $Requirements
 $VenvPy= Join-Path $VenvBaseDir 'Scripts\python.exe'
 
 # Dependencies (safe list)
@@ -125,6 +132,8 @@ $LogDir  = 'C:\agents\logs'
 $StdOut  = Join-Path $LogDir 'service_stdout.log'
 $StdErr  = Join-Path $LogDir 'service_stderr.log'
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
+Remove-Item -Recurse -Force "C:\nssm"
+
 
 if (-not (Test-Path $NssmExe)) {
   Log 'NSSM not found — installing...'
