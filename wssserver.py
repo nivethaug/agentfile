@@ -3,11 +3,17 @@ import asyncio
 from datetime import datetime
 import sqlite3
 import socketio
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException,Body, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
+from datetime import datetime, timedelta
+import uuid
+
+def generate_token() -> str:
+    return str(uuid.uuid4())
+TOKEN_LIFETIME_DAYS = 7  # Default token lifetime
 
 # === CONFIGURATION ===
 AUTH_TOKEN = "bf6c405b-2901-48f3-8598-b6f1ef0b2e5a"  # Shared secret for agent registration
@@ -447,3 +453,193 @@ async def get_metrics(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 
+# ==============================
+# TOKEN MANAGEMENT (NEW TABLE)
+# This block contains utilities and endpoints for managing tokens separately.
+# It is intentionally placed at the end of the file so it is easy to find.
+# ==============================
+
+# SQL for token management table:
+# CREATE TABLE IF NOT EXISTS tokens (
+#     token TEXT PRIMARY KEY,
+#     agent_id TEXT,
+#     issued_at TEXT,
+#     expires_at TEXT,
+#     revoked INTEGER DEFAULT 0,
+#     meta TEXT
+# );
+
+def init_token_table():
+    """Create a dedicated tokens table for token lifecycle management."""
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS tokens (
+            token TEXT PRIMARY KEY,
+            agent_id TEXT,
+            issued_at TEXT,
+            expires_at TEXT,
+            revoked INTEGER DEFAULT 0,
+            meta TEXT
+        );
+    ''')
+    conn.commit()
+    conn.close()
+
+def save_token_entry(token: str, agent_id: str, expires_at: str, meta: str = None):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    issued_at = datetime.utcnow().isoformat()
+    c.execute('''
+        INSERT OR REPLACE INTO tokens (token, agent_id, issued_at, expires_at, revoked, meta)
+        VALUES (?, ?, ?, ?, 0, ?)
+    ''', (token, agent_id, issued_at, expires_at, meta))
+    conn.commit()
+    conn.close()
+
+def revoke_token(token: str):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute('UPDATE tokens SET revoked = 1 WHERE token = ?', (token,))
+    conn.commit()
+    conn.close()
+
+def is_token_revoked(token: str) -> bool:
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute('SELECT revoked FROM tokens WHERE token = ?', (token,))
+    row = c.fetchone()
+    conn.close()
+    return bool(row and row[0] == 1)
+
+def fetch_token_row(token: str):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute('SELECT token, agent_id, issued_at, expires_at, revoked, meta FROM tokens WHERE token = ?', (token,))
+    row = c.fetchone()
+    conn.close()
+    return row
+
+def issue_and_store_token_for_agent(agent_id: str, lifetime_days: float = TOKEN_LIFETIME_DAYS, meta: str = None):
+    token = generate_token()
+    expires_at = (datetime.utcnow() + timedelta(days=lifetime_days)).isoformat()
+    save_token_entry(token, agent_id, expires_at, meta)
+    return token, expires_at
+
+def validate_token_against_tokens_table(token: str):
+    """Validate token using the tokens table: existence, expiry, revoked status.
+    Returns associated agent_id if valid, otherwise raises HTTPException."""
+    row = fetch_token_row(token)
+    if not row:
+        raise HTTPException(status_code=403, detail="Invalid token (not found)")
+
+    _token, agent_id, issued_at, expires_at, revoked, meta = row
+    if revoked == 1:
+        raise HTTPException(status_code=401, detail="Token revoked")
+
+    if expires_at and datetime.utcnow() > datetime.fromisoformat(expires_at):
+        raise HTTPException(status_code=401, detail="Token expired")
+
+    return agent_id
+
+
+# ==============================
+# TOKEN API ENDPOINTS
+# Includes: Generate, Refresh, and Protected Example
+# ==============================
+
+
+@fastapp.post("/token/generate")
+async def generate_token_api(payload: dict = Body(...)):
+    """Generate and store a new token for the provided agent_id."""
+    agent_id = payload.get("agent_id")
+    meta = payload.get("meta")
+
+    if not agent_id:
+        raise HTTPException(status_code=400, detail="agent_id is required")
+
+    token, expires_at = issue_and_store_token_for_agent(agent_id, meta=meta)
+    return {
+        "agent_id": agent_id,
+        "token": token,
+        "expires_at": expires_at,
+        "message": "Token generated successfully"
+    }
+
+
+@fastapp.post("/token/refresh")
+async def refresh_token_api(payload: dict = Body(...)):
+    """Refresh (re-issue) a token for an existing agent."""
+    old_token = payload.get("token")
+    if not old_token:
+        raise HTTPException(status_code=400, detail="token is required")
+
+    row = fetch_token_row(old_token)
+    if not row:
+        raise HTTPException(status_code=403, detail="Invalid token")
+
+    _, agent_id, _, expires_at, revoked, _ = row
+    if revoked == 1:
+        raise HTTPException(status_code=401, detail="Token revoked")
+
+    # revoke old token
+    revoke_token(old_token)
+
+    # issue new one
+    new_token, new_expiry = issue_and_store_token_for_agent(agent_id)
+    return {
+        "agent_id": agent_id,
+        "token": new_token,
+        "expires_at": new_expiry,
+        "message": "Token refreshed successfully"
+    }
+
+
+# ==============================
+# PROTECTED ROUTE EXAMPLE
+# Demonstrates token-based protection using the tokens table.
+# ==============================
+
+def verify_token_dependency(authorization: str = Header(None)):
+    """FastAPI dependency for verifying tokens from Authorization header."""
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid Authorization header")
+
+    token = authorization.split("Bearer ")[1].strip()
+    agent_id = validate_token_against_tokens_table(token)
+    return agent_id
+
+
+@fastapp.get("/protected")
+async def protected_example(agent_id: str = Depends(verify_token_dependency)):
+    """A sample endpoint protected by token authentication."""
+    return {
+        "message": f"Hello Agent {agent_id}, you have access!",
+        "status": "success"
+    }
+
+
+
+# NOTE: this new table is separate from the older 'agents' table token field.
+# You can choose to (a) keep both in sync, (b) use only the tokens table for auth checks,
+# or (c) migrate existing per-agent tokens into this tokens table.
+#
+# Important next steps (do NOT modify the file automatically if you don't want to):
+# 1) Create the tokens table (run once):
+#       >>> from wssserver import init_token_table
+#       >>> init_token_table()
+#
+# 2) When issuing a new token for an agent, prefer:
+#       token, expires_at = issue_and_store_token_for_agent('agent-123')
+#    This will also save the token into the tokens table.
+#
+# 3) To revoke a token:
+#       revoke_token('<token>')
+#
+# 4) To use the tokens table for request validation, call validate_token_against_tokens_table(token)
+#    from your FastAPI dependency instead of (or in addition to) your current verify logic.
+#
+# 5) If you want the register flow to also write into the tokens table, call:
+#       token, expires_at = generate_token_and_expiry()
+#       save_token_entry(token, agent_id, expires_at, meta=None)
+#    (I left that update out so I didn't modify earlier logic.)

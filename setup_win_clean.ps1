@@ -55,6 +55,15 @@ if (-not $AgentId) {
 }
 Log "Using AGENT_ID=$AgentId"
 
+# Persist AGENT_ID for current user
+try {
+  [Environment]::SetEnvironmentVariable("AGENT_ID", $AgentId, "User")
+  Log "AGENT_ID saved to User environment."
+} catch {
+  Log "Failed to set AGENT_ID in environment: $($_.Exception.Message)"
+}
+
+
 # Find python
 function Get-PythonPath {
   try { (Get-Command python -ErrorAction Stop).Path } catch { $null }
@@ -127,6 +136,17 @@ try {
   throw
 }
 
+$existingService = Get-Service -Name $serviceName -ErrorAction SilentlyContinue
+if ($existingService) {
+    Write-Host "    -> Stopping existing service..." -ForegroundColor Yellow
+    Stop-Service -Name $serviceName -Force -ErrorAction SilentlyContinue
+
+    Write-Host "    -> Removing existing service..." -ForegroundColor Yellow
+    sc.exe delete $serviceName | Out-Null
+
+    Start-Sleep -Seconds 2
+}
+
 # NSSM and service
 $LogDir  = 'C:\agents\logs'
 $StdOut  = Join-Path $LogDir 'service_stdout.log'
@@ -167,6 +187,21 @@ try {
   & $NssmExe remove $ServiceName confirm
   Start-Sleep -Seconds 1
 } catch {}
+
+# --------------------------------------------------------
+# Set environment variables for the service (NSSM)
+# --------------------------------------------------------
+try {
+    $envLines = @(
+        "AGENT_ID=$AgentId"    ) -join "`n"  # newline separated list, required by NSSM
+
+    Log "Setting NSSM service environment variables..."
+    & $NssmExe set $ServiceName AppEnvironmentExtra $envLines
+    Log "Environment variables added to $ServiceName via NSSM."
+} catch {
+    Log "Warning: Failed to set NSSM environment variables: $($_.Exception.Message)"
+}
+
 
 # Install service
 Log ("Installing NSSM Windows service " + $ServiceName)
