@@ -4,7 +4,7 @@
 
 param(
   [string]$AgentId = $env:AGENT_ID,
-  [string]$AgentUrl = 'https://github.com/nivethaug/agentfile/releases/download/v10.0.2/agent_windows.py'
+  [string]$AgentUrl = 'https://github.com/nivethaug/agentfile/releases/download/v1.0.7/agent_windows.py'
 )
 
 Set-StrictMode -Version Latest
@@ -14,6 +14,7 @@ $ErrorActionPreference = 'Stop'
 # Paths and constants
 # -----------------------------
 $HomeDir     = $env:USERPROFILE
+$HomeDir     = Join-Path $HomeDir 'algobn-agent'
 $ExtractDir  = Join-Path $HomeDir 'agent'
 $VenvBaseDir = Join-Path $HomeDir 'venvalgobn'
 $AgentPath   = Join-Path $ExtractDir 'agent_windows.py'
@@ -21,6 +22,8 @@ $Requirements= Join-Path $VenvBaseDir 'requirements.txt'
 $ServiceName = 'AlgoAgentService'
 $NssmDir     = 'C:\nssm'
 $NssmExe     = Join-Path $NssmDir 'nssm.exe'
+$MachineId = [guid]::NewGuid().ToString()
+
 
 # -----------------------------
 # Log file setup (robust)
@@ -57,7 +60,10 @@ Log "Using AGENT_ID=$AgentId"
 
 # Persist AGENT_ID for current user
 try {
-  [Environment]::SetEnvironmentVariable("AGENT_ID", $AgentId, "User")
+  [Environment]::SetEnvironmentVariable("AGENT_ID", $AgentId, "Machine")
+  [Environment]::SetEnvironmentVariable("HOME_DIR", $HomeDir, "Machine")
+  [Environment]::SetEnvironmentVariable("MACHINE_ID", $MachineId, "Machine")
+
   Log "AGENT_ID saved to User environment."
 } catch {
   Log "Failed to set AGENT_ID in environment: $($_.Exception.Message)"
@@ -188,19 +194,7 @@ try {
   Start-Sleep -Seconds 1
 } catch {}
 
-# --------------------------------------------------------
-# Set environment variables for the service (NSSM)
-# --------------------------------------------------------
-try {
-    $envLines = @(
-        "AGENT_ID=$AgentId"    ) -join "`n"  # newline separated list, required by NSSM
 
-    Log "Setting NSSM service environment variables..."
-    & $NssmExe set $ServiceName AppEnvironmentExtra $envLines
-    Log "Environment variables added to $ServiceName via NSSM."
-} catch {
-    Log "Warning: Failed to set NSSM environment variables: $($_.Exception.Message)"
-}
 
 
 # Install service
@@ -217,6 +211,25 @@ sc.exe failure $ServiceName reset= 0 actions= restart/10000/restart/10000/restar
 # Start service
 & $NssmExe start $ServiceName
 Log ("Service " + $ServiceName + " started successfully.")
+
+# --------------------------------------------------------
+# Set environment variables for the service (NSSM)
+# --------------------------------------------------------
+try {
+    # Generate Machine ID (UUID)
+   # Create environment variable list (newline-separated for NSSM)
+    $envLines = @(
+        "AGENT_ID=$AgentId",
+        "HOME_DIR=$HomeDir",
+        "MACHINE_ID=$MachineId"
+    ) -join "`n"
+
+    Log "Setting NSSM service environment variables..."
+    & $NssmExe set $ServiceName AppEnvironmentExtra $envLines
+    Log "Environment variables added to $ServiceName via NSSM."
+} catch {
+    Log "Warning: Failed to set NSSM environment variables: $($_.Exception.Message)"
+}
 
 # Finish - safe output
 Write-Host ''

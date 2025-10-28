@@ -41,14 +41,14 @@ from typing import Tuple, List
 # -------------------------
 # Configuration / Defaults
 # -------------------------
-load_dotenv()
 
 # Core config
 SERVER_URL = os.getenv("AGENT_SERVER_URL", "https://agentapi.algobillionaire.com")
 AGENT_ID = os.getenv("AGENT_ID", "agent-42e200f3-9cd6-44ee-a66a-0bab14d3490c")
 AUTH_TOKEN = os.getenv("AGENT_AUTH_TOKEN", "bf6c405b-2901-48f3-8598-b6f1ef0b2e5a")
 
-HOME_DIR = os.path.expanduser("~")
+HOME_DIR = os.getenv("HOME_DIR", os.path.expanduser("~"))
+MACHINE_ID = os.getenv("MACHINE_ID", str(uuid.getnode()))
 SCRIPT_DIR = os.path.join(HOME_DIR, "scripts")
 LOG_BASE_DIR = os.path.join(HOME_DIR, "logs")
 VENV_BASE_DIR = os.path.join(HOME_DIR, "venvalgobn")
@@ -384,7 +384,7 @@ async def on_upload_script_zip(data):
         script_dir = os.path.join(SCRIPT_DIR, user_id, script_id)
         os.makedirs(script_dir, exist_ok=True)
         logger = setup_logger(user_id, script_id, "run")
-        logger.info(f"[📥] Receiving ZIP payload ({total_bytes} bytes)")
+        logger.info(f" Receiving ZIP payload ({total_bytes} bytes)")
 
         # Write temp ZIP
         temp_zip_path = os.path.join(tempfile.gettempdir(), f"{uuid.uuid4()}.zip")
@@ -505,7 +505,7 @@ async def on_upload_script_from_url(data):
         files_meta = _gather_files_info(script_dir, extracted_files)
 
         logger.info(f"[✅] Extracted {len(extracted_files)} paths into {script_dir}")
-        print(f"[📥] ZIP saved and extracted to: {script_dir} ({total_bytes} bytes)")
+        print(f"ZIP saved and extracted to: {script_dir} ({total_bytes} bytes)")
 
         return {
             "status": "success",
@@ -519,6 +519,7 @@ async def on_upload_script_from_url(data):
 
     except Exception as e:
         print(f"[⛔ upload_script_from_url error]: {e}")
+        logger.error(f"[⛔] Upload-from-url failed: {e}")
         return {
             "status": "error",
             "log": f"Upload-from-url failed: {str(e)}"
@@ -1270,7 +1271,10 @@ async def on_toggle_cron_internal(data):
 @sio.event
 async def connect():
     agent_logger.info("Connected to server")
-    await sio.emit("register_agent", {"agent_id": AGENT_ID, "auth": AUTH_TOKEN})
+    
+    agent_logger.info("Home dir: %s", HOME_DIR )
+    agent_logger.info("MACHINE_ID dir: %s", MACHINE_ID )
+    await sio.emit("register_agent", {"agent_id": AGENT_ID, "auth": AUTH_TOKEN,"machine_id": MACHINE_ID})
 
 @sio.event
 async def disconnect():
