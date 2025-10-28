@@ -431,17 +431,18 @@ init_token_table()
 
 # === FASTAPI ENDPOINTS (UI -> SERVER -> AGENT) ===
 # Attach routes to FastAPI app as usual
-@fastapp.get("/")
-async def root():
-    return {"status": "WebSocket new!"}
+# @fastapp.get("/")
+# async def root():
+#     return {"status": "WebSocket new!"}
 
 def verify_agent_exists(payload: dict, token_agent_id:str):
     if payload.get("agent_id") != token_agent_id:
             raise HTTPException(status_code=403, detail="agent_id mismatch")
 
 @fastapp.post("/upload_script")
-async def upload_script(payload: dict):
+async def upload_script(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("upload_script", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -450,8 +451,9 @@ async def upload_script(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/upload_script_zip")
-async def upload_script_zip(payload: dict):
+async def upload_script_zip(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("upload_script_zip", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -460,8 +462,9 @@ async def upload_script_zip(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
     
 @fastapp.post("/upload_script_from_url")
-async def upload_script_from_url(payload: dict):
+async def upload_script_from_url(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("upload_script_from_url", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -469,8 +472,9 @@ async def upload_script_from_url(payload: dict):
     except asyncio.TimeoutError:
         raise HTTPException(status_code=504, detail="Agent response timeout")
 @fastapp.post("/clone_script")
-async def clone_script(payload: dict):
+async def clone_script(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("clone_script", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -478,8 +482,9 @@ async def clone_script(payload: dict):
     except asyncio.TimeoutError:
         raise HTTPException(status_code=504, detail="Agent response timeout")
 @fastapp.post("/upload_file")
-async def upload_file(payload: dict):
+async def upload_file(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("upload_file", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -488,8 +493,9 @@ async def upload_file(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/delete_file")
-async def upload_file(payload: dict):
+async def upload_file(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("delete_file", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -498,8 +504,9 @@ async def upload_file(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/get_tables")
-async def upload_file(payload: dict):
+async def upload_file(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("get_tables", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -508,8 +515,9 @@ async def upload_file(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/get_table_data")
-async def upload_file(payload: dict):
+async def upload_file(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("get_table_data", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -518,8 +526,9 @@ async def upload_file(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/read_file")
-async def read_file(payload: dict):
+async def read_file(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("get_file", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -529,8 +538,9 @@ async def read_file(payload: dict):
 
 
 @fastapp.post("/run_script")
-async def run_script(payload: dict):
+async def run_script(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         await sio.emit("run_script", payload, to=agents[payload["agent_id"]]["sid"])
         return {"status": "success", "log": "Script execution started -view full logs in the logs page"}
     except KeyError:
@@ -541,8 +551,9 @@ async def run_script(payload: dict):
 
     
 @fastapp.post("/run_dependency")
-async def run_script(payload: dict):
+async def run_script(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("run_dependency", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -551,8 +562,9 @@ async def run_script(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/run_install_dependency")
-async def run_install_script(payload: dict):
+async def run_install_script(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("run_install_dependency", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -561,8 +573,9 @@ async def run_install_script(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/setup_cron")
-async def setup_cron(payload: dict):
+async def setup_cron(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("setup_cron", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -571,8 +584,9 @@ async def setup_cron(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/remove_cron")
-async def remove_cron(payload: dict):
+async def remove_cron(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("remove_cron", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -581,8 +595,9 @@ async def remove_cron(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/toggle_cron")
-async def remove_cron(payload: dict):
+async def remove_cron(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("toggle_cron", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -590,8 +605,9 @@ async def remove_cron(payload: dict):
     except asyncio.TimeoutError:
         raise HTTPException(status_code=504, detail="Agent response timeout")
 @fastapp.post("/setup_background")
-async def setup_cron(payload: dict):
+async def setup_cron(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("setup_background", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -600,8 +616,9 @@ async def setup_cron(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/remove_pm2")
-async def remove_pm2(payload: dict):
+async def remove_pm2(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("remove_pm2", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -610,8 +627,9 @@ async def remove_pm2(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/toggle_pm2")
-async def remove_cron(payload: dict):
+async def remove_cron(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("toggle_pm2", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -620,8 +638,9 @@ async def remove_cron(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/get_logs")
-async def get_logs(payload: dict):
+async def get_logs(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("get_logs", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
@@ -630,8 +649,9 @@ async def get_logs(payload: dict):
         raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/chatbot")
-async def chatbot(payload: dict):
+async def chatbot(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
     try:
+        verify_agent_exists(payload, token_agent_id)
         res = await sio.call("chatbot", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
