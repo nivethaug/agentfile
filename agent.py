@@ -34,7 +34,9 @@ load_dotenv()  # ✅ Make sure this is called before os.getenv()
 SERVER_URL = "https://agentapi.algobillionaire.com"
 AGENT_ID = os.getenv('AGENT_ID', 'agent-42e200f3-9cd6-44ee-a66a-0bab14d3490c')
 AUTH_TOKEN = "bf6c405b-2901-48f3-8598-b6f1ef0b2e5a"
-HOME_DIR = os.path.expanduser("~")
+
+HOME_DIR = os.getenv("HOME_DIR", os.path.expanduser("~"))
+MACHINE_ID = os.getenv("MACHINE_ID", str(uuid.getnode()))
 SCRIPT_DIR = os.path.join(HOME_DIR, "scripts")
 LOG_BASE_DIR = os.path.join(HOME_DIR, "logs")
 VENV_BASE_DIR = os.path.join(HOME_DIR, "venvalgobn")  # fixed from relative
@@ -76,7 +78,8 @@ async def connect():
     print("✅ Connected to server")
     await sio.emit("register_agent", {
         "agent_id": AGENT_ID,
-        "auth": AUTH_TOKEN
+        "auth": AUTH_TOKEN,
+        "machine_id": MACHINE_ID
     })
 
 @sio.event

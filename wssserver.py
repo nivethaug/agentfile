@@ -110,7 +110,7 @@ async def register_agent(sid, data):
 
     agents[agent_id] = {"sid": sid}
     register_or_update_agent(agent_id, "agent", AUTH_TOKEN)
-    print(f"[✓] Agent registered: {agent_id}")
+    print(f"[✓] Agent registered: {data}")
 
 @sio.event
 async def ui_register(sid, data):

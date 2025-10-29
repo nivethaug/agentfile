@@ -1271,9 +1271,6 @@ async def on_toggle_cron_internal(data):
 @sio.event
 async def connect():
     agent_logger.info("Connected to server")
-    
-    agent_logger.info("Home dir: %s", HOME_DIR )
-    agent_logger.info("MACHINE_ID dir: %s", MACHINE_ID )
     await sio.emit("register_agent", {"agent_id": AGENT_ID, "auth": AUTH_TOKEN,"machine_id": MACHINE_ID})
 
 @sio.event

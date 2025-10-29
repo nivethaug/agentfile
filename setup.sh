@@ -1,15 +1,19 @@
 #!/bin/bash
 set -euo pipefail
 
-LOG_FILE="$HOME/agent_setup.log"
+HOMEDIR="$HOME/algobn-agent"
+LOG_FILE="$HOMEDIR/agent_setup.log"
 SERVICE_NAME="agent-client"
-VENV_BASE_DIR="$HOME/venvalgobn"
+VENV_BASE_DIR="$HOMEDIR/venvalgobn"
 REQUIREMENTS_PATH="$VENV_BASE_DIR/requirements.txt"
-EXTRACT_DIR="$HOME/agent"
+EXTRACT_DIR="$HOMEDIR/agent"
 AGENT_PATH="$EXTRACT_DIR/agent.py"
+MACHINE_ID=$(uuidgen)
+
+mkdir -p "$HOMEDIR"   # ✅ ensure directory exists before writing log
 
 # Direct URL to agent.py
-AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v10.0.0/agent.py"
+AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v1.2.0/agent.py"
 
 log(){ echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"; }
 
@@ -82,7 +86,10 @@ pip install -r "$REQUIREMENTS_PATH" || log "⚠️ Some packages failed, continu
 # Start with PM2 (runs agent.py directly)
 log "🚀 Starting agent with PM2..."
 pm2 delete "$SERVICE_NAME" >/dev/null 2>&1 || true
-LC_ALL=C.UTF-8 LANG=C.UTF-8 AGENT_ID="$AGENT_ID" \
+LC_ALL=C.UTF-8 LANG=C.UTF-8 \
+AGENT_ID="$AGENT_ID" \
+HOME_DIR="$HOMEDIR" \
+MACHINE_ID="$MACHINE_ID" \
 pm2 start "$VENV_BASE_DIR/bin/python" --name "$SERVICE_NAME" \
   --cwd "$EXTRACT_DIR" -- "$AGENT_PATH"
 pm2 save
