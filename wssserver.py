@@ -22,7 +22,7 @@ TOKEN_LIFETIME_DAYS = 7  # Default token lifetime
 
 # === CONFIGURATION ===
 AUTH_TOKEN = "bf6c405b-2901-48f3-8598-b6f1ef0b2e5a"  # Shared secret for agent registration
-Push_NOTIFICATION_KEY = "os_v2_app_wdlpptpojbhpfik7ekric6hhm7gtsheyrddekimfasv3yatetxmmwciln5c5p7hwndqoz3mcacwdatbs3pthxur2vgvayvuh5gpw5ey"  # FCM server key for push notifications
+Push_NOTIFICATION_KEY = ""  # FCM server key for push notifications
 DB_PATH = "agents.db"
 GRAPHQL_URL = "https://whchkqogsyitogbywgve.graphql.eu-central-1.nhost.run/v1"
 HASURA_ADMIN_SECRET = "BtTjE$0+6DHvZ$54IyaPKV)eiVkz@s$E"
