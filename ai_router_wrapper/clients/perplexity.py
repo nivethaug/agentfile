@@ -2,7 +2,7 @@ import requests
 from typing import List, Dict, Optional, Union
 
 DEFAULT_PPLX_MODEL = "sonar-reasoning-pro"
-PERPLEXITY_API_KEY = "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"
+PERPLEXITY_API_KEY = ""
 
 Message = Dict[str, str]
 
