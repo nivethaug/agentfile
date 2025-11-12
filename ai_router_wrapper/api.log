@@ -1,0 +1,1741 @@
+nohup: ignoring input
+INFO:     Started server process [2943242]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8008 (Press CTRL+C to quit)
+INFO:     27.5.227.191:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=summarize
+INFO:     27.5.227.191:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     104.248.23.10:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     104.248.23.10:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     149.57.180.179:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     23.27.145.224:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     198.235.24.202:65464 - "GET / HTTP/1.1" 404 Not Found
+INFO:     27.5.227.191:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     27.5.227.191:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     27.5.227.191:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     27.5.227.191:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     206.168.34.41:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     206.168.34.41:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     206.168.34.41:0 - "GET /robots.txt HTTP/1.0" 404 Not Found
+INFO:     34.138.88.77:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     20.171.207.65:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     45.139.104.199:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+INFO:     198.235.24.142:60330 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     45.139.104.199:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+INFO:     34.90.214.70:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.local HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.prod HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.dev HTTP/1.0" 404 Not Found
+INFO:     192.64.113.146:0 - "HEAD / HTTP/1.0" 404 Not Found
+INFO:     103.4.250.125:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     195.211.77.140:0 - "HEAD / HTTP/1.0" 404 Not Found
+INFO:     103.4.251.187:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     103.196.9.91:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     154.28.229.78:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     142.93.67.187:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     142.93.67.187:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     195.123.244.84:0 - "HEAD / HTTP/1.0" 404 Not Found
+INFO:     193.32.249.223:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     193.32.249.223:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     161.97.181.43:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     27.5.227.191:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=portfolio_generation
+INFO:     27.5.227.191:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     27.5.227.191:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=document_analysis
+INFO:     27.5.227.191:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     23.146.243.218:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     68.183.245.101:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     149.57.180.61:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     93.123.109.7:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+INFO:     193.233.75.252:0 - "GET /.env HTTP/1.0" 404 Not Found
+INFO:     149.57.180.178:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     149.57.180.193:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     147.185.132.103:63562 - "GET / HTTP/1.1" 404 Not Found
+INFO:     18.212.253.53:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //xmlrpc.php?rsd HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //blog/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //web/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //wordpress/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //website/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //wp/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //news/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //2018/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //2019/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //shop/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //wp1/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //test/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //media/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //wp2/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //site/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //cms/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     18.212.253.53:0 - "GET //sito/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     194.187.176.75:16544 - "GET / HTTP/1.1" 404 Not Found
+INFO:     194.187.176.224:16552 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     156.229.16.165:56556 - "GET / HTTP/1.1" 404 Not Found
+INFO:     156.229.16.165:58464 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     156.229.16.165:58478 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     156.229.16.165:58488 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+INFO:     156.229.16.165:58492 - "GET /sse HTTP/1.1" 404 Not Found
+INFO:     156.229.16.165:58502 - "GET /mcp HTTP/1.1" 404 Not Found
+INFO:     156.229.16.165:58512 - "GET /mcp-sse HTTP/1.1" 404 Not Found
+INFO:     68.183.93.79:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     68.183.93.79:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     54.172.229.200:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+INFO:     34.12.86.52:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     34.75.194.204:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     27.5.227.191:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=document_analysis
+INFO:     27.5.227.191:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     27.5.227.191:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=document_analysis
+INFO:     27.5.227.191:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     34.90.74.21:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     196.251.88.64:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.local HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.prod HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.dev HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.local HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.prod HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.dev HTTP/1.0" 404 Not Found
+INFO:     34.124.247.247:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     34.124.247.247:0 - "GET /wordpress/ HTTP/1.0" 404 Not Found
+INFO:     198.235.24.112:64204 - "GET / HTTP/1.1" 404 Not Found
+INFO:     34.60.245.232:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //xmlrpc.php?rsd HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //blog/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //web/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //wordpress/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //website/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //wp/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //news/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //2020/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //2019/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //shop/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //wp1/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //test/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //wp2/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //site/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //cms/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.60.245.232:0 - "GET //sito/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.19.16.245:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     64.225.26.134:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     64.225.26.134:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     20.55.99.64:56262 - "GET /setup/eureka_info HTTP/1.1" 404 Not Found
+INFO:     196.251.88.64:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+INFO:     45.139.104.169:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     35.209.202.171:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     27.5.227.191:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     27.5.227.191:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     35.93.56.116:42360 - "GET / HTTP/1.1" 404 Not Found
+INFO:     157.143.53.238:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     157.143.53.238:0 - "GET /js/twint_ch.js HTTP/1.0" 404 Not Found
+INFO:     157.143.53.238:0 - "GET /js/lkk_ch.js HTTP/1.0" 404 Not Found
+INFO:     149.57.180.43:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     198.235.24.39:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     23.27.145.87:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     134.122.122.64:47558 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     147.185.132.9:60292 - "GET / HTTP/1.1" 404 Not Found
+INFO:     27.5.227.191:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=document_analysis
+INFO:     27.5.227.191:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     64.225.28.129:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     64.225.28.129:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     198.235.24.117:58568 - "GET / HTTP/1.1" 404 Not Found
+INFO:     27.5.120.95:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=document_analysis
+INFO:     27.5.120.95:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     27.5.120.95:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=document_analysis
+INFO:     27.5.120.95:0 - "POST /route HTTP/1.0" 200 OK
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.215:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     162.142.125.215:0 - "GET /login HTTP/1.0" 404 Not Found
+INFO:     147.185.132.9:65374 - "GET / HTTP/1.1" 404 Not Found
+INFO:     198.55.98.216:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     18.232.146.67:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     18.232.146.67:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     198.55.98.93:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+INFO:     198.55.98.93:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.48:32870 - "GET / HTTP/1.1" 404 Not Found
+INFO:     167.94.138.48:42988 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.48:37428 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     89.248.173.219:52748 - "GET / HTTP/1.1" 404 Not Found
+INFO:     149.57.180.178:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     18.97.19.175:50484 - "GET / HTTP/1.1" 404 Not Found
+INFO:     1.24.16.167:32045 - "GET / HTTP/1.1" 404 Not Found
+INFO:     183.160.194.128:40375 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.189:44752 - "GET / HTTP/1.1" 404 Not Found
+INFO:     3.255.182.93:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     180.252.135.211:0 - "GET /.git/ HTTP/1.0" 404 Not Found
+INFO:     20.64.97.78:52176 - "GET / HTTP/1.1" 404 Not Found
+INFO:     198.235.24.114:63298 - "GET / HTTP/1.1" 404 Not Found
+INFO:     147.185.132.19:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.205:60124 - "GET / HTTP/1.1" 404 Not Found
+INFO:     4.227.36.11:0 - "GET /robots.txt HTTP/1.0" 404 Not Found
+INFO:     20.171.207.148:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     20.74.85.78:0 - "GET /.env HTTP/1.0" 404 Not Found
+INFO:     198.235.24.68:64882 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     195.211.77.142:0 - "HEAD / HTTP/1.0" 404 Not Found
+INFO:     192.159.99.101:49496 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.167:58742 - "GET / HTTP/1.1" 404 Not Found
+INFO:     177.54.159.11:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+INFO:     177.54.159.11:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     150.107.38.5:45166 - "GET / HTTP/1.1" 404 Not Found
+INFO:     150.107.38.5:49138 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     150.107.38.5:49142 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     150.107.38.5:49148 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+INFO:     150.107.38.5:49162 - "GET /sse HTTP/1.1" 404 Not Found
+INFO:     150.107.38.5:49176 - "GET /mcp HTTP/1.1" 404 Not Found
+INFO:     150.107.38.5:49184 - "GET /mcp-sse HTTP/1.1" 404 Not Found
+INFO:     150.107.38.5:49198 - "GET /get_server_info HTTP/1.1" 404 Not Found
+INFO:     157.143.53.238:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     157.143.53.238:0 - "GET /js/lkk_ch.js HTTP/1.0" 404 Not Found
+INFO:     157.143.53.238:0 - "GET /js/twint_ch.js HTTP/1.0" 404 Not Found
+INFO:     157.143.53.238:0 - "GET /css/support_parent.css HTTP/1.0" 404 Not Found
+INFO:     149.57.180.122:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.58:47274 - "GET / HTTP/1.1" 404 Not Found
+INFO:     23.27.145.21:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     89.248.173.219:45580 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.168:33868 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.168:33938 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     147.185.132.177:63794 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     198.235.24.176:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     4.227.36.86:0 - "GET /robots.txt HTTP/1.0" 404 Not Found
+INFO:     27.5.73.56:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     27.5.73.56:0 - "POST /route HTTP/1.0" 200 OK
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.70:37634 - "GET / HTTP/1.1" 404 Not Found
+INFO:     206.168.34.70:50198 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.70:56984 - "GET /wiki HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.120:38558 - "GET / HTTP/1.1" 404 Not Found
+INFO:     167.94.138.120:54056 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.120:46264 - "GET /security.txt HTTP/1.1" 404 Not Found
+INFO:     195.211.77.142:0 - "HEAD / HTTP/1.0" 404 Not Found
+INFO:     198.235.24.58:62482 - "GET / HTTP/1.1" 404 Not Found
+INFO:     198.235.24.247:63188 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     164.52.24.185:36693 - "GET / HTTP/1.1" 404 Not Found
+INFO:     164.52.24.185:36693 - "GET / HTTP/1.1" 404 Not Found
+INFO:     164.52.24.185:36693 - "GET / HTTP/1.1" 404 Not Found
+INFO:     164.52.24.185:36693 - "GET /v1/models HTTP/1.1" 404 Not Found
+INFO:     164.52.24.185:36693 - "GET /v1/models HTTP/1.1" 404 Not Found
+INFO:     164.52.24.185:36693 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     164.52.24.185:36693 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     206.168.34.86:44136 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.86:44246 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     20.171.207.251:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     4.227.36.89:0 - "GET /robots.txt HTTP/1.0" 404 Not Found
+INFO:     192.241.150.104:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     192.241.150.104:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     209.97.147.214:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     198.235.24.72:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     45.55.80.129:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     147.185.132.120:64802 - "GET / HTTP/1.1" 404 Not Found
+INFO:     218.104.149.66:55616 - "GET / HTTP/1.1" 404 Not Found
+INFO:     1.24.16.44:42053 - "GET / HTTP/1.1" 404 Not Found
+INFO:     157.245.115.83:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.184:44232 - "GET / HTTP/1.1" 404 Not Found
+INFO:     107.150.0.91:0 - "GET /.env HTTP/1.0" 404 Not Found
+INFO:     107.150.0.91:0 - "POST / HTTP/1.0" 404 Not Found
+INFO:     44.220.188.252:47276 - "GET / HTTP/1.1" 404 Not Found
+INFO:     34.87.50.174:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     34.87.50.174:0 - "GET /wordpress/ HTTP/1.0" 404 Not Found
+INFO:     34.244.223.189:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.51:52878 - "GET / HTTP/1.1" 404 Not Found
+INFO:     167.94.138.51:60748 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.51:57824 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     167.94.138.187:57520 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.187:45200 - "GET /security.txt HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     169.150.203.200:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //xmlrpc.php?rsd HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //blog/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //web/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //wordpress/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //website/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //wp/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //news/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //2018/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //2019/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //shop/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //wp1/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //test/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //media/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //wp2/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //site/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //cms/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.200:0 - "GET //sito/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.115:54000 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.115:47204 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     157.143.53.238:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     205.210.31.235:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     198.235.24.172:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.112:48860 - "GET / HTTP/1.1" 404 Not Found
+INFO:     147.185.132.177:58990 - "GET / HTTP/1.1" 404 Not Found
+INFO:     195.211.77.142:0 - "HEAD / HTTP/1.0" 404 Not Found
+INFO:     54.193.20.3:55794 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     20.29.23.166:35588 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.36:50902 - "GET / HTTP/1.1" 404 Not Found
+INFO:     89.248.173.219:52096 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     147.185.132.87:58368 - "GET / HTTP/1.1" 404 Not Found
+INFO:     115.96.186.182:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=document_analysis
+INFO:     115.96.186.182:0 - "POST /route HTTP/1.0" 200 OK
+[Dream Router] Task=document_analysis
+INFO:     115.96.186.182:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     115.96.186.182:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=document_analysis
+INFO:     115.96.186.182:0 - "POST /route HTTP/1.0" 200 OK
+[Dream Router] Task=document_analysis
+INFO:     115.96.186.182:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     115.96.186.182:0 - "OPTIONS /route HTTP/1.0" 400 Bad Request
+INFO:     115.96.186.182:0 - "OPTIONS /route HTTP/1.0" 400 Bad Request
+INFO:     115.96.186.182:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=document_analysis
+INFO:     115.96.186.182:0 - "POST /route HTTP/1.0" 200 OK
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.52:39192 - "GET / HTTP/1.1" 404 Not Found
+INFO:     45.148.10.248:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     4.227.36.97:0 - "GET /robots.txt HTTP/1.0" 404 Not Found
+INFO:     20.171.207.216:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.196:50170 - "GET / HTTP/1.1" 404 Not Found
+INFO:     198.235.24.12:65516 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     4.227.36.127:0 - "GET /robots.txt HTTP/1.0" 404 Not Found
+INFO:     20.171.207.40:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.174:55642 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.174:37244 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     198.235.24.74:62504 - "GET / HTTP/1.1" 404 Not Found
+INFO:     115.96.186.182:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     115.96.186.182:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     162.142.125.211:44410 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.211:57132 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     45.80.158.235:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     147.185.132.129:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     147.185.132.9:63218 - "GET / HTTP/1.1" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /.env HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /.env.save HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /.env.prod HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /api/.env HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /dev/.env HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /application/.env HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /phpinfo.php HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /phpinfo HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /php_info.php HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /_profiler/phpinfo HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /backend/.env HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /.env.example HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /admin/.env HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "GET /info HTTP/1.0" 404 Not Found
+INFO:     23.180.120.244:0 - "POST / HTTP/1.0" 404 Not Found
+INFO:     34.91.129.93:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     167.94.138.33:35816 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.33:60608 - "GET /robots.txt HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     34.148.89.26:0 - "GET /.env HTTP/1.0" 404 Not Found
+INFO:     34.148.89.26:0 - "GET /api/.env HTTP/1.0" 404 Not Found
+INFO:     34.148.89.26:0 - "GET /admin/.env HTTP/1.0" 404 Not Found
+INFO:     34.148.89.26:0 - "GET /checkout/.env HTTP/1.0" 404 Not Found
+INFO:     34.148.89.26:0 - "GET /.env.production HTTP/1.0" 404 Not Found
+INFO:     34.148.89.26:0 - "GET /login/.env HTTP/1.0" 404 Not Found
+INFO:     23.27.145.146:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     206.168.34.217:46558 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.217:53618 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     23.27.145.132:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     198.235.24.128:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.143:48086 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.143:39846 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     89.248.173.219:51533 - "GET / HTTP/1.1" 404 Not Found
+INFO:     115.96.186.182:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     115.96.186.182:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     4.227.36.7:0 - "GET /robots.txt HTTP/1.0" 404 Not Found
+INFO:     20.171.207.116:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     66.132.153.143:39806 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.143:38198 - "GET /wiki HTTP/1.1" 404 Not Found
+INFO:     40.124.174.167:50604 - "GET / HTTP/1.1" 404 Not Found
+INFO:     209.38.239.31:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     209.38.239.31:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.129:45432 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.129:39618 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     205.210.31.165:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     198.235.24.105:62034 - "GET / HTTP/1.1" 404 Not Found
+INFO:     123.160.223.73:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     123.160.223.72:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     123.160.223.73:42432 - "GET / HTTP/1.1" 404 Not Found
+INFO:     194.187.176.175:43846 - "GET / HTTP/1.1" 404 Not Found
+INFO:     194.187.176.19:43854 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     167.94.138.196:43294 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.196:39532 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     147.185.132.49:57884 - "GET / HTTP/1.1" 404 Not Found
+INFO:     4.227.36.76:0 - "GET /robots.txt HTTP/1.0" 404 Not Found
+INFO:     20.171.207.133:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     103.4.250.141:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     154.28.229.121:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.131:54134 - "GET / HTTP/1.1" 404 Not Found
+INFO:     66.132.153.131:48862 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.131:54610 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+INFO:     147.185.132.106:63308 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     150.255.122.215:34037 - "GET / HTTP/1.1" 404 Not Found
+INFO:     116.52.141.158:22277 - "GET / HTTP/1.1" 404 Not Found
+INFO:     192.34.56.55:35858 - "GET / HTTP/1.1" 404 Not Found
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=chat
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     198.235.24.121:58742 - "GET / HTTP/1.1" 404 Not Found
+INFO:     66.132.153.130:51444 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.130:59732 - "GET /wiki HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     216.180.246.135:46392 - "GET / HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:45764 - "GET /manage/account/login HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:33396 - "GET /admin/index.html HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:52428 - "GET /index.html HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:41082 - "GET /%2BCSCOE%2B/logon.html HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:44748 - "GET /cgi-bin/login.cgi HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:36868 - "GET /login.htm HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:40304 - "GET /login.html HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:43412 - "GET /login.jsp HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:47962 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:36628 - "GET /doc/index.html HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:58608 - "GET /remote/login HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:38434 - "GET //admin/login.asp HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:33610 - "GET /web/ HTTP/1.1" 404 Not Found
+INFO:     216.180.246.135:35682 - "GET //webpages/login.html HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.146.59:38392 - "GET / HTTP/1.1" 404 Not Found
+INFO:     167.94.146.59:45076 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.146.59:45152 - "GET /robots.txt HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     13.57.238.47:49734 - "GET / HTTP/1.1" 404 Not Found
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [502]>
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     162.142.125.211:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     205.210.31.203:62622 - "GET / HTTP/1.1" 404 Not Found
+INFO:     192.155.90.118:11372 - "GET / HTTP/1.1" 404 Not Found
+INFO:     167.94.138.63:33134 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.63:60992 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     89.248.173.219:42926 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     188.215.235.123:7535 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     188.215.235.123:39701 - "OPTIONS / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     188.215.235.123:9271 - "GET / HTTP/1.1" 404 Not Found
+INFO:     66.132.153.133:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     167.94.138.60:32914 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.60:57486 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     198.235.24.203:63832 - "GET / HTTP/1.1" 404 Not Found
+INFO:     103.196.9.154:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     144.48.82.127:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     103.196.9.168:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     103.196.9.126:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     102.177.191.252:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     104.252.191.115:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     107.172.195.157:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     31.44.108.45:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     154.49.199.98:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     104.164.126.59:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     102.177.191.252:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+WARNING:  Invalid HTTP request received.
+INFO:     185.242.226.36:37066 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.198:36626 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.198:46956 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     143.244.158.126:35916 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     94.159.110.45:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     154.28.229.90:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     155.254.40.56:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     154.28.229.206:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     66.132.153.117:45758 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.117:40156 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     13.59.14.59:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     13.59.14.59:0 - "GET /phpinfo.php HTTP/1.0" 404 Not Found
+INFO:     13.59.14.59:0 - "GET /test.php HTTP/1.0" 404 Not Found
+INFO:     13.59.14.59:0 - "GET /_profiler/phpinfo HTTP/1.0" 404 Not Found
+INFO:     13.59.14.59:0 - "GET /.env HTTP/1.0" 404 Not Found
+INFO:     13.59.14.59:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     13.59.14.59:0 - "GET /index.php HTTP/1.0" 404 Not Found
+INFO:     13.59.14.59:0 - "GET /.aws/credentials HTTP/1.0" 404 Not Found
+INFO:     66.132.153.125:50572 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.125:57570 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     20.163.2.42:39752 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.141:35696 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.141:37676 - "GET /security.txt HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     45.79.207.71:54897 - "GET / HTTP/1.1" 404 Not Found
+INFO:     34.70.11.245:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     66.132.153.131:34642 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.131:45118 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     198.235.24.214:61350 - "GET / HTTP/1.1" 404 Not Found
+INFO:     20.64.104.2:54530 - "GET /setup/eureka_info HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:55034 - "GET / HTTP/1.0" 404 Not Found
+INFO:     172.105.246.139:55050 - "GET /nice%20ports%2C/Trinity.txt.bak HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     172.105.246.139:35450 - "OPTIONS / HTTP/1.0" 404 Not Found
+INFO:     172.105.246.139:35454 - "OPTIONS / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     172.105.246.139:35534 - "GET /devicedesc.xml HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     172.105.246.139:60958 - "GET /Portal/Portal.mwsl HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:60926 - "GET /server-status HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:60922 - "GET /Portal0000.htm HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:60972 - "GET /rest/applinks/1.0/manifest HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:60942 - "GET / HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:60988 - "GET /docs/cplugError.html/ HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32772 - "GET /__Additional HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:60992 - "GET /confluence/rest/applinks/1.0/manifest HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32778 - "GET /dana-na/nc/nc_gina_ver.txt HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32784 - "GET /%2BCSCOE%2B/logon.html HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32794 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32804 - "GET /webui HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32810 - "GET /.git/HEAD HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     172.105.246.139:32820 - "GET /?=PHPE9568F36-D428-11d2-A769-00AA001ACF42 HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32836 - "GET /?=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000 HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32838 - "GET /2iHy HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32850 - "HEAD / HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32860 - "GET /main.html HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32864 - "GET /CFIDE/componentutils/ HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32896 - "GET /ise/img/rm-logo_small.png HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32908 - "GET /Account/Login HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32912 - "GET /images/logo.png HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32948 - "GET /geoserver/ HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     172.105.246.139:32980 - "GET /assets/png/favicon-abe32304.png HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32992 - "GET /xml/info.xml HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32996 - "GET /App_Themes/Default/Images/favicon.ico HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32998 - "GET /dana-cached/hc/HostCheckerInstaller.osx HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33012 - "GET /images/logo.gif HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33024 - "GET /magento_version HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33036 - "GET /geoserver/web/wicket/bookmarkable/org.geoserver.web.AboutGeoServerPage HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33046 - "GET /assets/img/favicon.ico HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33060 - "GET /fog/management/index.php?node=client&sub=logininfo HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33066 - "GET /themes/admin/default/build/assets/favicon-19fbef86.svg HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33080 - "GET /dniapi/userInfos HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33084 - "GET /dashboard/favicon.ico HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33098 - "GET /cluster/list.query HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33108 - "GET /apps/zxtm/login.cgi HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:32880 - "GET / HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33118 - "GET /kubepi/fav.png HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33130 - "GET /api/server/version HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33138 - "GET /administrator/manifests/files/joomla.xml HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33144 - "GET /health HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33160 - "GET /language/en-GB/en-GB.xml HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:33168 - "GET /versa/login HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:50560 - "GET /login.php HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:50566 - "GET /login.html HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:50578 - "GET /api/v1/check-version HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:50584 - "GET /p/login/ HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:50598 - "GET /api/version HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:50614 - "GET /portal/ HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:50630 - "GET /cgi-bin/param.cgi?get_device_conf HTTP/1.1" 404 Not Found
+INFO:     172.105.246.139:50646 - "GET /info.asp HTTP/1.1" 404 Not Found
+INFO:     198.235.24.106:62668 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     89.248.173.219:33343 - "GET / HTTP/1.1" 404 Not Found
+INFO:     167.94.138.41:57492 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.41:58232 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     199.45.154.130:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     147.185.132.48:65292 - "GET / HTTP/1.1" 404 Not Found
+INFO:     68.183.207.79:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     68.183.207.79:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     167.94.138.41:60958 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.41:51040 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=chat
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+WARNING:  Invalid HTTP request received.
+INFO:     152.32.177.169:32830 - "GET / HTTP/1.1" 404 Not Found
+INFO:     152.32.177.169:47634 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     152.32.177.169:47638 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     152.32.177.169:47652 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+INFO:     152.32.177.169:47660 - "GET /sse HTTP/1.1" 404 Not Found
+INFO:     152.32.177.169:47672 - "GET /mcp HTTP/1.1" 404 Not Found
+INFO:     152.32.177.169:47682 - "GET /mcp-sse HTTP/1.1" 404 Not Found
+INFO:     152.32.177.169:47692 - "GET /get_server_info HTTP/1.1" 404 Not Found
+INFO:     31.44.108.252:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     104.164.126.164:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     104.250.211.8:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     205.210.31.167:60376 - "GET / HTTP/1.1" 404 Not Found
+INFO:     167.94.138.187:58898 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.187:54134 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Dream Router] Task=chat
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+WARNING:  Invalid HTTP request received.
+INFO:     18.97.19.210:54986 - "GET / HTTP/1.1" 404 Not Found
+INFO:     147.185.132.141:58650 - "GET / HTTP/1.1" 404 Not Found
+INFO:     66.132.153.123:55396 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.123:38550 - "GET /security.txt HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.40:44330 - "GET / HTTP/1.1" 404 Not Found
+INFO:     167.94.138.40:38872 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.40:34322 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     40.124.175.155:54442 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     185.242.226.36:50662 - "GET / HTTP/1.1" 404 Not Found
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     18.201.194.16:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.122:60186 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.122:57012 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     45.156.128.99:37219 - "GET / HTTP/1.1" 404 Not Found
+INFO:     118.123.1.37:37228 - "GET /chs/js/lang_zh_tw.js HTTP/1.1" 404 Not Found
+INFO:     118.123.1.37:37106 - "GET / HTTP/1.1" 404 Not Found
+INFO:     118.123.1.37:37480 - "GET /customer/js/lang_zh_tw.js HTTP/1.1" 404 Not Found
+INFO:     118.123.1.37:37344 - "GET /login/stylesheets/theme.css HTTP/1.1" 404 Not Found
+INFO:     118.123.1.37:37416 - "GET /stylesheets/theme.css HTTP/1.1" 404 Not Found
+INFO:     118.123.1.37:37292 - "GET /index.php HTTP/1.1" 404 Not Found
+INFO:     18.201.167.156:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     205.210.31.168:62826 - "GET / HTTP/1.1" 404 Not Found
+INFO:     167.94.138.187:45256 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.187:47554 - "GET /security.txt HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     101.199.254.204:18930 - "GET / HTTP/1.1" 404 Not Found
+INFO:     101.199.254.198:50751 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     101.199.254.198:18014 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     101.199.254.232:13642 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+INFO:     101.199.254.207:40185 - "GET /sse HTTP/1.1" 404 Not Found
+INFO:     101.199.254.204:25967 - "GET /mcp HTTP/1.1" 404 Not Found
+INFO:     101.199.254.199:13801 - "GET /mcp-sse HTTP/1.1" 404 Not Found
+INFO:     101.199.254.209:29924 - "GET /get_server_info HTTP/1.1" 404 Not Found
+INFO:     205.210.31.140:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD / HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /wordpress HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /Wordpress HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /WORDPRESS HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /WordPress HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /wp HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /Wp HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /WP HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /old HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /Old HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /OLD HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /oldsite HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /new HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /New HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /NEW HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /wp-old HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /2022 HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /2023 HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /2024 HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /2017 HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /2020 HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /2019 HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /2018 HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /backup HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /test HTTP/1.0" 404 Not Found
+INFO:     20.163.15.247:49380 - "GET /setup/eureka_info HTTP/1.1" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /Test HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /TEST HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /demo HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /bc HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /www HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /WWW HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /Www HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /2021 HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /main HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /old-site HTTP/1.0" 404 Not Found
+INFO:     198.235.24.254:65250 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /bk HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /Backup HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /BACKUP HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /SHOP HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /Shop HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /shop HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /bak HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /sitio HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /bac HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /sito HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /site HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /Site HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /SITE HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /blog HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /BLOG HTTP/1.0" 404 Not Found
+INFO:     54.241.202.114:0 - "HEAD /Blog HTTP/1.0" 404 Not Found
+INFO:     182.119.225.32:27500 - "GET / HTTP/1.1" 404 Not Found
+INFO:     171.108.182.195:32993 - "GET / HTTP/1.1" 404 Not Found
+INFO:     206.168.34.125:39826 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.125:33264 - "GET /wiki HTTP/1.1" 404 Not Found
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     45.79.207.252:43626 - "GET / HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:49462 - "GET / HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:49620 - "GET /webui HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:49614 - "GET /CFIDE/componentutils/ HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:49626 - "GET /user HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:49618 - "GET /dana-na/nc/nc_gina_ver.txt HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     145.239.154.84:50198 - "GET /geoserver/web/wicket/bookmarkable/org.geoserver.web.AboutGeoServerPage HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:50200 - "GET /geoserver/index.html HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:50196 - "GET /Account/Login HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:50312 - "HEAD / HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:50396 - "GET /dniapi/userInfos HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:50850 - "GET /geoserver/ HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:50978 - "GET /%2BCSCOE%2B/logon.html HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:51042 - "GET /magento_version HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:51144 - "GET /cgi-bin/info.cgi HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:51576 - "GET /fog/management/index.php?node=client&sub=logininfo HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:51580 - "GET /xml/info.xml HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:51668 - "GET /login.php HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:51728 - "GET /cluster/list.query HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:51974 - "GET /helpdesk/WebObjects/Helpdesk.woa HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:51962 - "GET /apps/zxtm/login.cgi HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:52196 - "GET /api/v1/check-version HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:52292 - "GET /dana-cached/hc/HostCheckerInstaller.osx HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:52402 - "GET /api/server/version HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:52470 - "GET /administrator/manifests/files/joomla.xml HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:52542 - "GET /human.aspx?arg12=infotech HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:52636 - "GET /versa/login HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:52634 - "GET /p/login/ HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:52804 - "GET /login.html HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:52944 - "GET /api/v2/about HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:53030 - "GET /portal/ HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:53122 - "GET /status HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:53198 - "GET /info.asp HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:53458 - "GET /language/en-GB/en-GB.xml HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:53614 - "GET /login/login.html HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:53698 - "GET /cgi-bin/param.cgi?get_device_conf HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:53804 - "GET /allversions HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:54116 - "GET /api/vip/i18n/api/v2/translation/products/vRNIUI/versions/1 HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:54418 - "GET /tos/index.php?user/login HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:54746 - "GET /login.aspx HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:54744 - "GET /WebApp/js/UI_String.js HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:54822 - "GET /officescan/console/html/localization.js HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     145.239.154.84:55808 - "GET /c/login HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     145.239.154.84:56462 - "GET /kylin/ HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:56600 - "GET /cslu/v1/core/conf HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     145.239.154.84:57464 - "GET /admin/reports/status HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:57468 - "GET /CHANGELOG.txt HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:58086 - "GET /pom.xml HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:58510 - "GET /workplace/home.action HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:58778 - "GET /webportal.cgi HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:59306 - "GET /css/eonweb.css HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:59394 - "GET /admin/reports/updates HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:59482 - "GET /centreon/api/latest/platform/versions HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:59900 - "GET /cgi-bin/authLogin.cgi HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:60102 - "GET /build.gradle HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:60100 - "GET /pandora_console/ HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     145.239.154.84:60552 - "GET /css/elfinder.min.css HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:60740 - "GET /system/version/current HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:60738 - "GET /api/v1/version HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:60898 - "GET /am_bin/amlogin HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:32908 - "GET /app/ui/login.jsp HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:32910 - "GET /hx/api/about HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:33310 - "GET /geoserver/web/ HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:33308 - "GET /plugin/webs_model_cfg.js HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:33474 - "GET /i18n/component/JS HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:33472 - "GET /Main_Login.asp HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:33750 - "GET /cgi-bin/luci HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:33898 - "GET /rs/application-about HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:34280 - "GET /metrics HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:34780 - "GET /about HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:34878 - "GET /main/main.html HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:34942 - "GET /cap.js HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     145.239.154.84:35392 - "GET /api/v2/hoverfly/version HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:35582 - "GET /index.html HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:35902 - "GET /ui/login.action HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:35900 - "GET /core/auth/login/ HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:36066 - "GET /admin/config.php HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:36358 - "GET /api/status HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:36360 - "GET /api/v1/info HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:36454 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:36894 - "GET /~login HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:36900 - "GET /mailinspector/login.php HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:37012 - "GET /index.do HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:37098 - "GET /agent/vicidial.php HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:37356 - "GET /config_dump HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:37520 - "GET /jtcgi/wte.pyc HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:37696 - "GET /nifi/ HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:37698 - "GET /system/gwinfo HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:38060 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     145.239.154.84:38292 - "GET /api-description HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:38636 - "GET /nifi-api/flow/about HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:38694 - "GET /decisioncenter-api/v1/about HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     145.239.154.84:38920 - "GET /cgi-bin/meteobridge.cgi HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     145.239.154.84:49050 - "GET /webui HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:49364 - "GET / HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:50678 - "GET / HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:52100 - "GET /owa/ HTTP/1.1" 404 Not Found
+INFO:     145.239.154.84:53306 - "GET /owa/ HTTP/1.1" 404 Not Found
+INFO:     135.233.97.43:40004 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.163:36058 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.163:57492 - "GET /wiki HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     89.248.173.219:48802 - "GET / HTTP/1.1" 404 Not Found
+INFO:     34.245.128.117:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     165.154.238.144:39414 - "GET / HTTP/1.1" 404 Not Found
+INFO:     205.210.31.164:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     123.160.223.74:39125 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.204:56208 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.204:56260 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.204:48590 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     198.235.24.224:64202 - "GET / HTTP/1.1" 404 Not Found
+INFO:     3.249.12.46:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     167.94.138.52:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+WARNING:  Invalid HTTP request received.
+INFO:     44.243.179.151:46470 - "GET / HTTP/1.1" 404 Not Found
+INFO:     147.185.132.213:65332 - "GET / HTTP/1.1" 404 Not Found
+INFO:     89.248.173.219:38478 - "GET / HTTP/1.1" 404 Not Found
+INFO:     167.94.138.203:40064 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.203:33746 - "GET /wiki HTTP/1.1" 404 Not Found
+INFO:     162.142.125.45:38782 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.45:59532 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+INFO:     89.248.173.219:58952 - "GET / HTTP/1.1" 404 Not Found
+INFO:     134.122.127.36:42612 - "GET / HTTP/1.1" 404 Not Found
+INFO:     169.150.203.195:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //xmlrpc.php?rsd HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //blog/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //web/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //wordpress/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //website/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //wp/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //news/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //2018/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //2019/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //shop/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //wp1/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //test/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //media/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //wp2/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //site/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //cms/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     169.150.203.195:0 - "GET //sito/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.187:39148 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.187:34370 - "GET /security.txt HTTP/1.1" 404 Not Found
+INFO:     45.79.172.21:65158 - "GET / HTTP/1.1" 404 Not Found
+INFO:     205.210.31.10:60958 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     45.148.10.203:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     45.148.10.203:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     20.243.233.123:0 - "GET /wp-content/plugins/hellopress/wp_filemanager.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /error.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /list.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /delpaths.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /axe.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /testmail.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /thoms.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /inputs.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /fix.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /ol.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /orm.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /ot.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /repair.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /wp.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /zews.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /zwso.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /u6dex.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /saiga.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /xex.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /store.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /itil.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /search.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /rafu.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /ty.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /xm.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /tumn.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /fai.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /124.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /epinyins.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /bild.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /ubh.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /epinyins.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /007.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /zp.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /.well-known/acme-challenge/about.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /geck.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /rpz.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /rrr.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /xc.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /steal.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /aws.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /fm.php?p= HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /shout.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /size.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /ww.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /suc.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /rx.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /ovka.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /ova.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /fex.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /dng.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /111.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /rd1.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /rules.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /utf88.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /form.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /abcd.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /chosen.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /use.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /output.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /past.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /func.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /123.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /we.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /blok.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /ftp.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /tgrs.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /wff.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /wek.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /goat.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /ioxi-o.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /asu.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /witmm.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /php.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /ncx.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /v.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /common.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /gmo.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /ar.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /qing.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /lv.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /mms.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /hex.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /dev.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /lite.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /pp.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /a1.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /a2.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /a3.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /a4.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /a5.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /d1.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /d2.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /d3.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /d4.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /d5.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /f1.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /f2.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /f3.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /f4.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /f5.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /lock360.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /alfa.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /ee.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /6.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /12.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /02.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /2.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /13.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /13k.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /css.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /bypass.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /3.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /10.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /kk.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /cf.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /456.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /7.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /aa.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /file32.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /0x.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /doti.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /wsd.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /f6.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /fe5.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /vee.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /111.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /usep.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /yellow.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /ut.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /hk.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /333.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /222.php HTTP/1.0" 404 Not Found
+INFO:     20.243.233.123:0 - "GET /kaza.php HTTP/1.0" 404 Not Found
+INFO:     167.94.138.36:50030 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.36:52892 - "GET /robots.txt HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     185.242.226.36:53302 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     198.235.24.193:59250 - "GET / HTTP/1.1" 404 Not Found
+INFO:     20.163.15.178:33750 - "GET /setup/eureka_info HTTP/1.1" 404 Not Found
+INFO:     34.90.191.83:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     206.168.34.198:48294 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.198:44594 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     194.187.176.101:11236 - "GET /DevicesGateway/apps/system-app-metadata/1?packageId=../../../../API/system/users/search%3fpagesize=1 HTTP/1.1" 404 Not Found
+INFO:     94.230.175.10:0 - "GET /adminer.php HTTP/1.0" 404 Not Found
+INFO:     198.235.24.71:64736 - "GET / HTTP/1.1" 404 Not Found
+INFO:     167.94.138.42:41116 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.42:53026 - "GET /wiki HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     80.67.220.123:0 - "GET /tinyfilemanager.php HTTP/1.0" 404 Not Found
+INFO:     80.67.220.123:0 - "GET /tinyfilemanager/tinyfilemanager.php HTTP/1.0" 404 Not Found
+INFO:     45.156.129.108:48473 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.131:36980 - "GET / HTTP/1.1" 404 Not Found
+INFO:     66.132.153.131:52730 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.131:59864 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     198.235.24.65:59550 - "GET / HTTP/1.1" 404 Not Found
+INFO:     176.65.149.195:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     47.236.97.81:55184 - "GET / HTTP/1.1" 404 Not Found
+INFO:     47.236.97.81:49520 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     47.236.97.81:49536 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     47.236.97.81:49546 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+INFO:     47.236.97.81:49562 - "GET /sse HTTP/1.1" 404 Not Found
+INFO:     47.236.97.81:49566 - "GET /mcp HTTP/1.1" 404 Not Found
+INFO:     47.236.97.81:49570 - "GET /mcp-sse HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     8.209.106.138:46490 - "GET / HTTP/1.1" 404 Not Found
+INFO:     8.209.106.138:51396 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     8.209.106.138:51708 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     8.209.106.138:51926 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+INFO:     8.209.106.138:52154 - "GET /sse HTTP/1.1" 404 Not Found
+INFO:     8.209.106.138:52360 - "GET /mcp HTTP/1.1" 404 Not Found
+INFO:     8.209.106.138:52588 - "GET /mcp-sse HTTP/1.1" 404 Not Found
+INFO:     8.209.106.138:52386 - "GET /get_server_info HTTP/1.1" 404 Not Found
+INFO:     8.209.106.138:57992 - "GET /update_weights_from_tensor HTTP/1.1" 404 Not Found
+INFO:     68.183.9.16:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "POST /graphql HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "POST /api HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "POST /api/graphql HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "POST /graphql/api HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "POST /api/gql HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /swagger-ui.html HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /swagger/index.html HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /swagger/swagger-ui.html HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /webjars/swagger-ui/index.html HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /swagger.json HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /swagger/v1/swagger.json HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /v2/api-docs HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /v3/api-docs HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /api-docs/swagger.json HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /api/swagger.json HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /%40vite/env HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /actuator/env HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /server HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /version HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /.vscode/sftp.json HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /about HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /debug/default/view?panel=config HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /v2/_catalog HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /ecp/Current/exporttool/microsoft.exchange.ediscovery.exporttool.application HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /server-status HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /login.action HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /_all_dbs HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /.DS_Store HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /.env HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /s/8343e20323e23393e2734313/_/%3B/META-INF/maven/com.atlassian.jira/jira-webapp-dist/pom.properties HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /config.json HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /telescope/requests HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /info.php HTTP/1.0" 404 Not Found
+INFO:     68.183.9.16:0 - "GET /?rest_route=/wp/v2/users/ HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.local HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.prod HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.dev HTTP/1.0" 404 Not Found
+INFO:     195.211.77.140:0 - "HEAD / HTTP/1.0" 404 Not Found
+INFO:     167.94.138.58:47190 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.58:51316 - "GET /security.txt HTTP/1.1" 404 Not Found
+INFO:     128.192.12.107:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.local HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.prod HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.dev HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.local HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.prod HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.dev HTTP/1.0" 404 Not Found
+INFO:     54.84.93.91:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.local HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.prod HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.dev HTTP/1.0" 404 Not Found
+INFO:     104.252.191.144:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     154.28.229.183:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     104.164.126.74:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     34.124.255.180:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     34.124.255.180:0 - "GET /wordpress/ HTTP/1.0" 404 Not Found
+INFO:     157.230.12.110:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     157.230.12.110:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     104.252.191.129:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     103.196.9.162:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     107.172.195.78:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     4.227.36.80:0 - "GET /robots.txt HTTP/1.0" 404 Not Found
+INFO:     20.171.207.11:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     159.89.48.108:44690 - "GET / HTTP/1.1" 404 Not Found
+INFO:     80.211.129.177:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.local HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.prod HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.dev HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.local HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.prod HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.dev HTTP/1.0" 404 Not Found
+INFO:     213.209.157.232:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.local HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.prod HTTP/1.0" 404 Not Found
+INFO:     104.244.74.39:0 - "HEAD /.env.dev HTTP/1.0" 404 Not Found
+INFO:     205.210.31.56:61284 - "GET / HTTP/1.1" 404 Not Found
+INFO:     178.178.114.162:0 - "GET /i.php HTTP/1.0" 404 Not Found
+INFO:     178.178.114.162:0 - "GET /test.php HTTP/1.0" 404 Not Found
+INFO:     178.178.114.162:0 - "GET /p.php HTTP/1.0" 404 Not Found
+INFO:     178.178.114.162:0 - "GET /info.php HTTP/1.0" 404 Not Found
+INFO:     178.178.114.162:0 - "GET /phpinfo.php HTTP/1.0" 404 Not Found
+INFO:     213.209.157.232:0 - "GET /.env HTTP/1.0" 404 Not Found
+INFO:     44.246.194.177:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     44.246.194.177:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     44.246.194.177:0 - "HEAD /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     44.246.194.177:0 - "HEAD /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     34.91.136.206:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     47.129.237.72:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     45.130.203.131:0 - "GET /.git/HEAD HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.35:52368 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.35:33814 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     198.235.24.71:63496 - "GET / HTTP/1.1" 404 Not Found
+INFO:     195.47.194.151:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     195.47.194.151:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     213.209.157.232:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+INFO:     34.1.17.65:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     34.1.24.117:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     52.53.236.7:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     172.203.225.221:57532 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     165.22.182.84:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     165.22.182.84:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     34.169.207.24:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     34.127.26.250:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     198.235.24.114:57740 - "GET / HTTP/1.1" 404 Not Found
+INFO:     195.178.110.223:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.203:50716 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.203:50754 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.203:53438 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+INFO:     167.94.138.203:53472 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     54.156.67.126:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     77.73.89.86:0 - "GET /manager/media/script/mootools/mootools.js HTTP/1.0" 404 Not Found
+INFO:     85.175.7.72:0 - "GET /manager/assets/modext/core/modx.js HTTP/1.0" 404 Not Found
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     147.185.132.112:63984 - "GET / HTTP/1.1" 404 Not Found
+INFO:     213.209.157.232:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     62.217.191.132:0 - "GET /tinyfilemanager/tinyfilemanager.php HTTP/1.0" 404 Not Found
+INFO:     62.217.191.132:0 - "GET /tinyfilemanager.php HTTP/1.0" 404 Not Found
+INFO:     5.253.144.191:0 - "GET /chosen.php HTTP/1.0" 404 Not Found
+INFO:     5.253.144.191:0 - "GET /goods.php HTTP/1.0" 404 Not Found
+INFO:     5.253.144.191:0 - "GET /mah.php HTTP/1.0" 404 Not Found
+INFO:     167.71.232.68:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     167.71.232.68:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     93.123.109.7:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.118:55588 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.118:55610 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.118:51218 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     66.132.153.118:53840 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     147.185.132.70:59790 - "GET / HTTP/1.1" 404 Not Found
+INFO:     205.210.31.239:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     193.56.150.35:0 - "GET /manager/media/script/mootools/mootools.js HTTP/1.0" 404 Not Found
+INFO:     213.88.9.145:0 - "GET /manager/assets/modext/core/modx.js HTTP/1.0" 404 Not Found
+INFO:     104.164.173.104:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+INFO:     45.79.207.71:49308 - "GET / HTTP/1.1" 404 Not Found
+INFO:     193.39.160.66:0 - "GET /rest HTTP/1.0" 404 Not Found
+INFO:     178.124.169.50:0 - "GET /rest HTTP/1.0" 404 Not Found
+INFO:     172.236.228.227:6320 - "GET / HTTP/1.1" 404 Not Found
+INFO:     205.169.39.7:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     34.118.6.164:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     206.168.34.36:56466 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.36:52982 - "GET /security.txt HTTP/1.1" 404 Not Found
+INFO:     147.185.132.171:61642 - "GET / HTTP/1.1" 404 Not Found
+INFO:     85.249.28.239:0 - "GET /i.php HTTP/1.0" 404 Not Found
+INFO:     85.249.28.239:0 - "GET /info.php HTTP/1.0" 404 Not Found
+INFO:     85.249.28.239:0 - "GET /p.php HTTP/1.0" 404 Not Found
+INFO:     85.249.28.239:0 - "GET /phpinfo.php HTTP/1.0" 404 Not Found
+INFO:     85.249.28.239:0 - "GET /test.php HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     18.97.19.225:47308 - "GET / HTTP/1.1" 404 Not Found
+INFO:     185.242.226.36:53462 - "GET / HTTP/1.1" 404 Not Found
+INFO:     198.235.24.81:58672 - "GET / HTTP/1.1" 404 Not Found
+INFO:     44.201.89.53:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     44.201.89.53:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     185.32.135.170:0 - "GET /goods.php HTTP/1.0" 404 Not Found
+INFO:     185.32.135.170:0 - "GET /chosen.php HTTP/1.0" 404 Not Found
+INFO:     185.32.135.170:0 - "GET /mah.php HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.162:41108 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.162:51956 - "GET /wiki HTTP/1.1" 404 Not Found
+INFO:     205.169.39.242:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     79.139.207.108:0 - "GET /manager/media/script/mootools/mootools.js HTTP/1.0" 404 Not Found
+INFO:     85.174.200.105:0 - "GET /manager/assets/modext/core/modx.js HTTP/1.0" 404 Not Found
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     94.230.33.41:0 - "GET /rest HTTP/1.0" 404 Not Found
+INFO:     46.53.248.208:0 - "GET /shell.php HTTP/1.0" 404 Not Found
+INFO:     46.53.248.208:0 - "GET /admin-header.php HTTP/1.0" 404 Not Found
+INFO:     46.53.248.208:0 - "GET /options-reading.php HTTP/1.0" 404 Not Found
+INFO:     46.53.248.208:0 - "GET /wso.php HTTP/1.0" 404 Not Found
+INFO:     46.53.248.208:0 - "GET /xleet.php HTTP/1.0" 404 Not Found
+INFO:     46.53.248.208:0 - "GET /xleet-shell.php HTTP/1.0" 404 Not Found
+INFO:     46.53.248.208:0 - "GET /admin.php HTTP/1.0" 404 Not Found
+INFO:     46.53.248.208:0 - "GET /profile.php HTTP/1.0" 404 Not Found
+INFO:     18.237.59.175:53200 - "GET / HTTP/1.1" 404 Not Found
+INFO:     199.45.155.99:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //xmlrpc.php?rsd HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //blog/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //web/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //wordpress/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //website/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //wp/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //news/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //2020/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //2019/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //shop/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //wp1/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //test/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //wp2/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //site/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //cms/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     34.169.203.235:0 - "GET //sito/wp-includes/wlwmanifest.xml HTTP/1.0" 404 Not Found
+INFO:     217.73.119.17:0 - "GET /inputs.php HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.207:46336 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.207:46452 - "GET /security.txt HTTP/1.1" 404 Not Found
+INFO:     205.210.31.219:63396 - "GET / HTTP/1.1" 404 Not Found
+INFO:     167.94.138.60:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     198.235.24.99:64032 - "GET / HTTP/1.1" 404 Not Found
+INFO:     45.194.70.254:18300 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     103.210.22.74:35714 - "GET / HTTP/1.1" 404 Not Found
+INFO:     103.210.22.74:35760 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     103.210.22.74:35826 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     103.210.22.74:35828 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+INFO:     172.105.152.245:60498 - "GET / HTTP/1.0" 404 Not Found
+INFO:     172.105.152.245:9546 - "GET /nice%20ports%2C/Trinity.txt.bak HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     172.105.152.245:58236 - "GET /tasktracker.jsp HTTP/1.1" 404 Not Found
+INFO:     172.105.152.245:58266 - "OPTIONS / HTTP/1.1" 404 Not Found
+INFO:     172.105.152.245:58250 - "GET / HTTP/1.1" 404 Not Found
+INFO:     172.105.152.245:58282 - "PROPFIND / HTTP/1.1" 404 Not Found
+INFO:     172.105.152.245:58296 - "PROPFIND / HTTP/1.1" 404 Not Found
+INFO:     172.105.152.245:58302 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     172.105.152.245:58304 - "GET /.git/HEAD HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     172.105.152.245:58340 - "OPTIONS / HTTP/1.1" 400 Bad Request
+INFO:     172.105.152.245:58350 - "GET /browseDirectory.jsp HTTP/1.1" 404 Not Found
+INFO:     172.105.152.245:58356 - "GET / HTTP/1.1" 404 Not Found
+INFO:     172.105.152.245:58360 - "OPTIONS / HTTP/1.1" 400 Bad Request
+INFO:     172.105.152.245:58370 - "HEAD / HTTP/1.1" 404 Not Found
+INFO:     172.105.152.245:58378 - "OPTIONS / HTTP/1.1" 400 Bad Request
+INFO:     172.105.152.245:58398 - "POST / HTTP/1.1" 404 Not Found
+INFO:     172.105.152.245:58390 - "OPTIONS / HTTP/1.1" 400 Bad Request
+INFO:     172.105.152.245:58402 - "OPTIONS / HTTP/1.1" 404 Not Found
+INFO:     172.105.152.245:58400 - "OPTIONS / HTTP/1.1" 400 Bad Request
+INFO:     172.105.152.245:58416 - "OPTIONS / HTTP/1.1" 400 Bad Request
+INFO:     172.105.152.245:58430 - "OPTIONS / HTTP/1.1" 400 Bad Request
+INFO:     172.105.152.245:58442 - "OPTIONS / HTTP/1.1" 400 Bad Request
+INFO:     172.105.152.245:58444 - "OPTIONS / HTTP/1.1" 400 Bad Request
+INFO:     172.105.152.245:58450 - "GET /flumemaster.jsp HTTP/1.1" 404 Not Found
+INFO:     172.105.152.245:12978 - "GET /dfshealth.jsp HTTP/1.1" 404 Not Found
+INFO:     178.121.24.136:0 - "GET /mah.php HTTP/1.0" 404 Not Found
+INFO:     178.121.24.136:0 - "GET /goods.php HTTP/1.0" 404 Not Found
+INFO:     178.121.24.136:0 - "GET /chosen.php HTTP/1.0" 404 Not Found
+INFO:     46.148.248.90:0 - "GET /manager/assets/modext/core/modx.js HTTP/1.0" 404 Not Found
+INFO:     194.186.132.95:0 - "GET /manager/media/script/mootools/mootools.js HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.40:59766 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.40:35562 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     109.72.246.105:0 - "GET /tiny.php HTTP/1.0" 404 Not Found
+INFO:     31.135.56.166:0 - "GET /tiny.php HTTP/1.0" 404 Not Found
+INFO:     46.191.232.89:0 - "GET /tiny.php HTTP/1.0" 404 Not Found
+INFO:     192.241.144.43:33446 - "GET / HTTP/1.1" 404 Not Found
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=education_faq
+Perplexity response status: <Response [200]>
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     217.154.201.105:58910 - "GET /cgi-bin/main-cgi?json={%22cmd%22:%20116}&_=1757416340879 HTTP/1.1" 404 Not Found
+INFO:     93.123.109.175:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+INFO:     93.123.109.175:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+INFO:     106.75.137.178:54368 - "POST /token HTTP/1.1" 404 Not Found
+INFO:     205.210.31.56:58098 - "GET / HTTP/1.1" 404 Not Found
+INFO:     122.150.236.5:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     122.150.236.5:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     122.150.236.199:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     122.150.236.76:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     122.150.236.8:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     122.150.236.76:0 - "POST /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     122.150.236.199:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     216.81.245.142:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.208:42826 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.208:59470 - "GET /security.txt HTTP/1.1" 404 Not Found
+INFO:     205.210.31.59:57790 - "GET / HTTP/1.1" 404 Not Found
+INFO:     37.110.130.225:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     74.7.228.36:0 - "GET /robots.txt HTTP/1.0" 404 Not Found
+INFO:     74.7.227.162:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     18.204.214.78:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.228.53.174:41150 - "GET / HTTP/1.1" 404 Not Found
+INFO:     136.169.214.114:0 - "GET /tiny.php HTTP/1.0" 404 Not Found
+INFO:     85.174.206.187:0 - "GET /tiny.php HTTP/1.0" 404 Not Found
+INFO:     5.188.167.226:0 - "GET /mah.php HTTP/1.0" 404 Not Found
+INFO:     5.188.167.226:0 - "GET /chosen.php HTTP/1.0" 404 Not Found
+INFO:     5.188.167.226:0 - "GET /goods.php HTTP/1.0" 404 Not Found
+INFO:     103.4.250.166:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.160:38790 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.160:44066 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     147.185.132.85:63986 - "GET / HTTP/1.1" 404 Not Found
+INFO:     66.132.153.130:53234 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.130:56664 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.130:42970 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     18.97.26.73:34418 - "GET / HTTP/1.1" 404 Not Found
+INFO:     74.7.227.162:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     198.235.24.177:61342 - "GET / HTTP/1.1" 404 Not Found
+INFO:     31.23.49.55:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     54.78.26.26:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.46:58938 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.46:56684 - "GET /security.txt HTTP/1.1" 404 Not Found
+INFO:     159.203.171.8:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     159.203.171.8:0 - "GET /favicon.ico HTTP/1.0" 404 Not Found
+INFO:     171.36.7.222:14124 - "GET / HTTP/1.1" 404 Not Found
+INFO:     1.24.16.31:46752 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     45.82.78.102:59392 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.118:51758 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.118:47612 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     66.132.153.118:41354 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     195.19.127.9:0 - "GET /tiny.php HTTP/1.0" 404 Not Found
+INFO:     60.243.42.108:0 - "OPTIONS /route HTTP/1.0" 200 OK
+[Algo Router] Task=summarize
+INFO:     60.243.42.108:0 - "POST /route HTTP/1.0" 200 OK
+INFO:     45.82.78.113:42968 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     15.235.224.238:52984 - "GET / HTTP/1.1" 404 Not Found
+INFO:     185.242.226.36:37720 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.205:60406 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.205:48880 - "GET /login HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     118.26.104.93:35800 - "GET / HTTP/1.1" 404 Not Found
+INFO:     118.26.104.93:35802 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     118.26.104.93:35814 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     118.26.104.93:35826 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+INFO:     118.26.104.93:35834 - "GET /sse HTTP/1.1" 404 Not Found
+INFO:     118.26.104.93:35844 - "GET /mcp HTTP/1.1" 404 Not Found
+INFO:     118.26.104.93:35848 - "GET /mcp-sse HTTP/1.1" 404 Not Found
+INFO:     118.26.104.93:59996 - "GET /get_server_info HTTP/1.1" 404 Not Found
+INFO:     147.185.132.237:60224 - "GET / HTTP/1.1" 404 Not Found
+INFO:     107.172.195.20:0 - "GET /route HTTP/1.0" 405 Method Not Allowed
+WARNING:  Invalid HTTP request received.
+INFO:     45.33.68.33:46662 - "GET / HTTP/1.0" 404 Not Found
+INFO:     50.116.43.229:39606 - "GET / HTTP/1.0" 404 Not Found
+INFO:     137.184.55.251:34196 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.47:54238 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.47:45994 - "GET /wiki HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     80.248.227.19:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     74.7.227.205:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.43:43454 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.43:60368 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     13.86.116.129:38764 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     74.7.228.19:0 - "GET /robots.txt HTTP/1.0" 404 Not Found
+INFO:     74.7.228.19:0 - "GET /robots.txt HTTP/1.0" 404 Not Found
+INFO:     3.85.61.56:0 - "GET /.git/config HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.174:32894 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.174:45906 - "GET /wiki HTTP/1.1" 404 Not Found
+INFO:     148.153.56.174:34904 - "GET / HTTP/1.0" 404 Not Found
+INFO:     148.153.56.174:35130 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     148.153.56.174:35250 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     148.153.56.174:35342 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     148.153.56.174:35456 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+INFO:     148.153.56.174:35532 - "GET /llms.txt HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.41:60516 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.41:43002 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.41:33476 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     45.79.115.59:43317 - "GET / HTTP/1.1" 404 Not Found
+INFO:     20.84.166.43:60282 - "GET /setup/eureka_info HTTP/1.1" 404 Not Found
+INFO:     147.185.132.37:61330 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.40:38628 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     162.142.125.40:59082 - "GET /security.txt HTTP/1.1" 404 Not Found
+INFO:     199.45.155.79:0 - "GET / HTTP/1.0" 404 Not Found
+INFO:     205.169.39.5:0 - "GET / HTTP/1.0" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     147.185.132.39:62144 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     45.148.10.95:53190 - "GET /.git/config HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     45.148.10.95:53210 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     45.148.10.95:53220 - "GET /api/.env HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.39:59694 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     167.94.138.39:2596 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
+INFO:     20.102.117.55:43254 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     3.81.23.7:0 - "GET /.git/config HTTP/1.0" 404 Not Found
