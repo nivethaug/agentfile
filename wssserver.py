@@ -1,7 +1,10 @@
 # server.py
 import asyncio
 from datetime import datetime
+import json
 import sqlite3
+
+import requests
 import socketio
 from fastapi import FastAPI, HTTPException,Body, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,6 +13,8 @@ from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from datetime import datetime, timedelta
 import uuid
+import httpx
+from httpx import HTTPStatusError
 
 def generate_token() -> str:
     return str(uuid.uuid4())
@@ -17,6 +22,7 @@ TOKEN_LIFETIME_DAYS = 7  # Default token lifetime
 
 # === CONFIGURATION ===
 AUTH_TOKEN = "bf6c405b-2901-48f3-8598-b6f1ef0b2e5a"  # Shared secret for agent registration
+Push_NOTIFICATION_KEY = "os_v2_app_wdlpptpojbhpfik7ekric6hhm7gtsheyrddekimfasv3yatetxmmwciln5c5p7hwndqoz3mcacwdatbs3pthxur2vgvayvuh5gpw5ey"  # FCM server key for push notifications
 DB_PATH = "agents.db"
 GRAPHQL_URL = "https://whchkqogsyitogbywgve.graphql.eu-central-1.nhost.run/v1"
 HASURA_ADMIN_SECRET = "BtTjE$0+6DHvZ$54IyaPKV)eiVkz@s$E"
@@ -350,6 +356,140 @@ async def generate_token_api(payload: dict = Body(...)):
         "message": "Token generated successfully"
     }
 
+HEADERS = {
+    "Content-Type": "application/json; charset=utf-8",
+    "Authorization": f"Basic {Push_NOTIFICATION_KEY}",
+}
+
+
+
+from typing import List, Optional, Dict, Any
+
+
+ONESIGNAL_URL = "https://api.onesignal.com/notifications"
+ONESIGNAL_APP_ID = "b0d6f7cd-ee48-4ef2-a15f-22a28178e767"
+
+# Config
+MAX_RETRIES = 3
+BACKOFF_FACTOR = 0.5  # seconds
+CONNECT_TIMEOUT = 3.0
+READ_TIMEOUT = 10.0
+
+_DEFAULT_TIMEOUT = httpx.Timeout(
+    connect=CONNECT_TIMEOUT,
+    read=READ_TIMEOUT,
+    write=10.0,
+    pool=10.0
+)
+
+
+async def send_notification(contents, headings=None, include_player_ids=None,
+                            included_segments=None, data=None, url=None, web_buttons=None):
+
+    payload = {
+        "app_id": ONESIGNAL_APP_ID,
+        "contents": contents,
+    }
+
+    if headings:
+        payload["headings"] = headings
+    if include_player_ids:
+        payload["include_player_ids"] = include_player_ids
+    if included_segments:
+        payload["included_segments"] = included_segments
+    if data:
+        payload["data"] = data
+    if url:
+        payload["url"] = url
+    if web_buttons:
+        payload["web_buttons"] = web_buttons
+
+    async with httpx.AsyncClient(timeout=httpx.Timeout(10.0)) as client:
+        resp = await client.post(ONESIGNAL_URL, json=payload, headers=HEADERS)
+        try:
+            resp.raise_for_status()
+            try:
+                j = resp.json()
+            except Exception:
+                j = {"raw": resp.text}
+            return {"ok": True, "status_code": resp.status_code, "onesignal": j}
+        except httpx.HTTPStatusError as e:
+            # Log body for debugging
+            print("❌ OneSignal error:", e.response.status_code, e.response.text)
+            return {
+                "ok": False,
+                "status_code": e.response.status_code,
+                "onesignal": e.response.text,
+                "error": str(e),
+            }
+
+
+
+async def delete_player(player_id= None):
+    """
+    Permanently delete a player (device) from OneSignal.
+    After deletion, that player ID will no longer receive notifications.
+    """
+    HEADERS = {
+        "Content-Type": "application/json;",
+        "Authorization": f"Basic {Push_NOTIFICATION_KEY}",
+    }
+    url = f"https://api.onesignal.com/apps/b0d6f7cd-ee48-4ef2-a15f-22a28178e767/subscriptions/{player_id}"
+
+    async with httpx.AsyncClient(timeout=httpx.Timeout(10.0)) as client:
+        resp = await client.delete(url, headers=HEADERS)
+        try:
+            resp.raise_for_status()
+            return {
+                "ok": True,
+                "status_code": resp.status_code,
+                "response": resp.json() if resp.text else {},
+            }
+        except httpx.HTTPStatusError as e:
+            return {
+                "ok": False,
+                "status_code": e.response.status_code,
+                "error": e.response.text,
+            }
+        
+@fastapp.post("/delete_playerone")
+async def delete_playerone(payload: dict = Body(...)):
+    """Generate and store a new token for the provided agent_id."""
+    player_ids = payload.get("player_ids")
+
+    res = await delete_player(player_id= player_ids)
+    return {
+        "status": "success" if res.get("ok") else "error",
+        "response": res,
+        "player_ids": player_ids
+    }
+
+@fastapp.post("/send_push")
+async def send_push(payload: dict = Body(...)):
+    """Generate and store a new token for the provided agent_id."""
+    agent_id = payload.get("agent_id")
+    meta = payload.get("meta")
+    player_ids = payload.get("player_ids")
+    title = payload.get("title", "AlgoBillionaire Alert")
+    message = payload.get("message", "New trading signal available")
+    data = payload.get("data")
+    url = payload.get("url")
+    if not agent_id:
+        raise HTTPException(status_code=400, detail="agent_id is required")
+
+    res = await send_notification(
+        contents={"en": message},
+        headings={"en": title},
+        include_player_ids=player_ids,
+        included_segments=None,
+        data=data,
+        url=url
+    )
+    return {
+        "status": "success" if res.get("ok") else "error",
+        "response": res
+    }
+
 
 @fastapp.post("/token/refresh")
 async def refresh_token_api(payload: dict = Body(...)):
@@ -664,6 +804,60 @@ async def get_metrics(payload: dict,token_agent_id: str = Depends(verify_token_d
     try:
         verify_agent_exists(payload, token_agent_id)
         res = await sio.call("get_metrics", payload, to=agents[payload["agent_id"]]["sid"])
+        return res
+    except KeyError:
+        raise HTTPException(status_code=404, detail="Agent not found")
+    except asyncio.TimeoutError:
+        raise HTTPException(status_code=504, detail="Agent response timeout")
+    
+@fastapp.post("/get_public_key")
+async def get_public_key(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
+    try:
+        verify_agent_exists(payload, token_agent_id)
+        res = await sio.call("get_public_key", payload, to=agents[payload["agent_id"]]["sid"])
+        return res
+    except KeyError:
+        raise HTTPException(status_code=404, detail="Agent not found")
+    except asyncio.TimeoutError:
+        raise HTTPException(status_code=504, detail="Agent response timeout")
+    
+@fastapp.post("/get_credentialInfo")
+async def get_metrics(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
+    try:
+        verify_agent_exists(payload, token_agent_id)
+        res = await sio.call("get_credentialInfo", payload, to=agents[payload["agent_id"]]["sid"])
+        return res
+    except KeyError:
+        raise HTTPException(status_code=404, detail="Agent not found")
+    except asyncio.TimeoutError:
+        raise HTTPException(status_code=504, detail="Agent response timeout")
+
+@fastapp.post("/add_exchange_credential")
+async def get_metrics(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
+    try:
+        verify_agent_exists(payload, token_agent_id)
+        res = await sio.call("add_exchange_credential", payload, to=agents[payload["agent_id"]]["sid"])
+        return res
+    except KeyError:
+        raise HTTPException(status_code=404, detail="Agent not found")
+    except asyncio.TimeoutError:
+        raise HTTPException(status_code=504, detail="Agent response timeout")
+@fastapp.post("/delete_credential")
+async def delete_credential(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
+    try:
+        verify_agent_exists(payload, token_agent_id)
+        res = await sio.call("delete_credential", payload, to=agents[payload["agent_id"]]["sid"])
+        return res
+    except KeyError:
+        raise HTTPException(status_code=404, detail="Agent not found")
+    except asyncio.TimeoutError:
+        raise HTTPException(status_code=504, detail="Agent response timeout")
+
+@fastapp.post("/updateexchange_credential")
+async def get_metrics(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
+    try:
+        verify_agent_exists(payload, token_agent_id)
+        res = await sio.call("updateexchange_credential", payload, to=agents[payload["agent_id"]]["sid"])
         return res
     except KeyError:
         raise HTTPException(status_code=404, detail="Agent not found")

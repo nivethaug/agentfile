@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 import socketio
 import asyncio
 import subprocess
@@ -19,6 +20,13 @@ import tempfile
 import zipfile
 import re
 import base64
+from typing import Optional, Dict, Any, List, Union, Tuple
+
+# RSA imports
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives.asymmetric import padding
+
+DEFAULT_DB_FILENAME = "credentials.db"
 
 
 PM2_PROCESS_PREFIX = "bg"
@@ -37,6 +45,9 @@ AUTH_TOKEN = "bf6c405b-2901-48f3-8598-b6f1ef0b2e5a"
 
 HOME_DIR = os.getenv("HOME_DIR", os.path.expanduser("~"))
 MACHINE_ID = os.getenv("MACHINE_ID", str(uuid.getnode()))
+KEY_DIR = os.path.join(HOME_DIR, "keys")
+pub_path = os.path.join(KEY_DIR, "rsa_public.pem")
+priv_path = os.path.join(KEY_DIR, "rsa_private.pem")
 SCRIPT_DIR = os.path.join(HOME_DIR, "scripts")
 LOG_BASE_DIR = os.path.join(HOME_DIR, "logs")
 VENV_BASE_DIR = os.path.join(HOME_DIR, "venvalgobn")  # fixed from relative
@@ -1305,6 +1316,8 @@ async def on_get_metrics(data):
                 "agent_id": AGENT_ID
             }
         else:
+            db_path = init_credentials_db(HOME_DIR)
+            print("DB path:", db_path)
             metrics = {
                 "cpu": psutil.cpu_percent(interval=0),
                 "memory": psutil.virtual_memory().percent,
@@ -1313,6 +1326,7 @@ async def on_get_metrics(data):
                 "root_dir": HOME_DIR,
                 "script_dir": SCRIPT_DIR,
                 "venv_base_dir": VENV_BASE_DIR,
+                "db_path": db_path,
                 "log_base_dir": LOG_BASE_DIR
             }
         print("✅ Sent metrics")
@@ -1413,8 +1427,397 @@ async def on_exec_command(data):
         })
         return {"status": "error", "cwd": cwd, "log": str(e)}
 
+# --------------------------------------------------------------------
+# Helpers
+# --------------------------------------------------------------------
+def _now_iso() -> str:
+    return datetime.utcnow().isoformat() + "Z"
 
+def _connect(db_path: str):
+    return sqlite3.connect(db_path, timeout=30, isolation_level=None)
+
+# --------------------------------------------------------------------
+# DB setup
+# --------------------------------------------------------------------
+def init_credentials_db(folder_path: str, db_filename: str = DEFAULT_DB_FILENAME) -> str:
+    """
+    Create a credentials DB under folder_path.
+    Tables:
+      - credentials(id, label, exchange, api_key_masked, secret_blob, metadata_json, created_at, updated_at)
+      - audit_log(id, cred_id, action, context, timestamp)
+    """
+    folder = Path(folder_path)
+    folder.mkdir(parents=True, exist_ok=True)
+    db_path = folder / db_filename
+
+    conn = sqlite3.connect(str(db_path))
+    cur = conn.cursor()
+
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS credentials (
+        id TEXT PRIMARY KEY,
+        label TEXT,
+        exchange TEXT,
+        api_key_masked TEXT,
+        api_key TEXT,
+        secret_blob BLOB,
+        metadata_json TEXT,
+        created_at TEXT,
+        updated_at TEXT
+    );
+    """)
+
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS audit_log (
+        id TEXT PRIMARY KEY,
+        cred_id TEXT,
+        action TEXT,
+        context TEXT,
+        timestamp TEXT
+    );
+    """)
+
+    conn.commit()
+    conn.close()
+
+    try:
+        os.chmod(db_path, 0o600)
+    except Exception:
+        pass
+
+    return str(db_path)
+
+# --------------------------------------------------------------------
+# Mask helper
+# --------------------------------------------------------------------
+def mask_api_key(api_key: Optional[str], head: int = 4, tail: int = 4) -> str:
+    if not api_key:
+        return ""
+    n = len(api_key)
+    if n <= head + tail:
+        return api_key[0:head] + "*" * (n - head)
+    return api_key[:head] + "****" + api_key[-tail:]
+
+# --------------------------------------------------------------------
+# CRUD
+# --------------------------------------------------------------------
+def save_credential(db_path: str,
+                    label: str,
+                    exchange: str,
+                    api_key: Optional[str],
+                    api_secret_blob: bytes,
+                    metadata: Optional[Dict[str, Any]] = None) -> str:
+    cred_id = uuid.uuid4().hex
+    masked = mask_api_key(api_key or "")
+    meta_json = json.dumps(metadata or {}, default=str)
+    now = _now_iso()
+
+    conn = _connect(db_path)
+    cur = conn.cursor()
+    # check existing (label + exchange)
+    cur.execute("SELECT id FROM credentials WHERE exchange=? and label=?", (exchange,label,))
+    if cur.fetchone():
+        conn.close()
+        raise ValueError(f"Credential for exchange '{exchange}' and label '{label}' already exists.")
+
+    cur.execute("""
+      INSERT INTO credentials (label, exchange, api_key, api_key_masked, secret_blob, metadata_json, created_at, updated_at)
+      VALUES ( ?, ?, ?, ?, ?, ?, ?,?)
+    """, (label, exchange, api_key, masked, sqlite3.Binary(api_secret_blob), meta_json, now, now))
+    conn.commit()
+    conn.close()
+
+    log_audit(db_path, cred_id, "create", json.dumps({"label": label, "exchange": exchange}))
+    return cred_id
+
+
+def update_credential_secret(db_path: str, label: str, exchange: str, secret_blob: bytes,api_key: Optional[str],):
+    conn = _connect(db_path)
+    cur = conn.cursor()
+    cur.execute("SELECT id FROM credentials WHERE exchange=? and label=?", (exchange,label,))
+    if cur.fetchone() is None:
+        conn.close()
+        raise KeyError("Credential not found")
+    cur.execute("UPDATE credentials SET secret_blob=?, api_key=?, updated_at=? WHERE exchange=?",
+                (sqlite3.Binary(secret_blob), api_key,_now_iso(), exchange))
+    conn.commit()
+    conn.close()
+    log_audit(db_path, exchange, "update_secret", "")
+
+
+def get_credential(db_path: str, exchange: str,label: str) -> Optional[Dict[str, Any]]:
+    conn = _connect(db_path)
+    cur = conn.cursor()
+    cur.execute("""
+      SELECT id, label, exchange, api_key_masked, secret_blob, metadata_json, created_at, updated_at
+      FROM credentials WHERE exchange=? and label=?
+    """, (exchange,label,))
+    row = cur.fetchone()
+    conn.close()
+    if not row:
+        return None
+    return {
+        "id": row[0],
+        "label": row[1],
+        "exchange": row[2],
+        "api_key_masked": row[3],
+        "secret_blob": row[4],
+        "metadata": json.loads(row[5] or "{}"),
+        "created_at": row[6],
+        "updated_at": row[7]
+    }
+
+
+def list_credentials(db_path: str) -> List[Dict[str, Any]]:
+    conn = _connect(db_path)
+    cur = conn.cursor()
+    cur.execute("""
+      SELECT id, label, exchange, api_key_masked, metadata_json, created_at, updated_at
+      FROM credentials ORDER BY created_at DESC
+    """)
+    rows = cur.fetchall()
+    conn.close()
+    return [{
+        "id": r[0],
+        "label": r[1],
+        "exchange": r[2],
+        "api_key_masked": r[3],
+        "metadata": json.loads(r[4] or "{}"),
+        "created_at": r[5],
+        "updated_at": r[6],
+    } for r in rows]
+
+
+def delete_credentialdb(db_path: str,label: str, exchange: str):
+    conn = _connect(db_path)
+    cur = conn.cursor()
+    cur.execute("DELETE FROM credentials WHERE exchange=? and label=?", (exchange,label,))
+    conn.commit()
+    conn.close()
+    log_audit(db_path, label, "delete", "")
+
+
+def log_audit(db_path: str, cred_id: str, action: str, context: str = ""):
+    conn = _connect(db_path)
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT INTO audit_log (id, cred_id, action, context, timestamp)
+        VALUES (?, ?, ?, ?, ?)
+    """, (uuid.uuid4().hex, cred_id, action, context, _now_iso()))
+    conn.commit()
+    conn.close()
+
+# --------------------------------------------------------------------
+# RSA key utilities
+# --------------------------------------------------------------------
+def load_rsa_private_key(path: str):
+    """Load private RSA key (PEM) for decryption."""
+    with open(path, "rb") as f:
+        data = f.read()
+    return serialization.load_pem_private_key(data, password=None)
+
+
+def load_rsa_public_key(path: str):
+    """Load public RSA key (PEM) for encryption."""
+    with open(path, "rb") as f:
+        data = f.read()
+    return serialization.load_pem_public_key(data)
+
+
+def encrypt_rsa_with_public_key(pub_key, plaintext: str) -> bytes:
+    """Encrypt string -> ciphertext bytes using public key (RSA-OAEP SHA256)."""
+    return pub_key.encrypt(
+        plaintext.encode("utf-8"),
+        padding.OAEP(
+            mgf=padding.MGF1(algorithm=hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None
+        )
+    )
+
+
+def decrypt_rsa_blob(priv_key, blob: bytes) -> bytes:
+    """Decrypt ciphertext bytes -> plaintext bytes using private key."""
+    return priv_key.decrypt(
+        blob,
+        padding.OAEP(
+            mgf=padding.MGF1(algorithm=hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None
+        )
+    )
+
+# --------------------------------------------------------------------
+# Utility
+# --------------------------------------------------------------------
+def get_db_path_for_folder(folder_path: str, db_filename: str = DEFAULT_DB_FILENAME) -> str:
+    p = Path(folder_path) / db_filename
+    if not p.exists():
+        raise FileNotFoundError(f"No DB found at {p}")
+    return str(p)
+
+
+
+    # # example plaintext
+    # payload = '{"api_key":"TEST1234","api_secret":"MYSECRET"}'
+    # cipher = encrypt_rsa_with_public_key(pub, payload)
+    # cid = save_credential(db_path, "demo", "binance", "TEST1234", cipher)
+    # print("Saved credential:", cid)
+
+
+    # cred = get_credential(db_path, cid)
+    # print("Decrypted:", decrypt_rsa_blob(priv, cred["secret_blob"]).decode())
 # === MAIN ===
+pub = load_rsa_public_key(pub_path)
+priv = load_rsa_private_key(priv_path)
+
+@sio.on("get_public_key")
+async def get_public_key(data):
+    try:
+       pub = Path(pub_path)
+
+       if not pub:
+            return {
+            "status": "error",
+            "log": f"Public key file not found"
+        }
+
+       return {
+            "status": "success",
+            "pem": pub.read_text()
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "log": f"Public key not found : {e}"
+
+    
+        }
+    
+def safe_base64_decode(b64: str) -> bytes:
+    try:
+        # validate=True raises if invalid characters/padding
+        return base64.b64decode(b64, validate=True)
+    except Exception as e:
+        # Some clients produce URL-safe base64 (replace -,_ -> +,/ and pad), attempt that fallback:
+        try:
+            b64_fixed = b64.replace("-", "+").replace("_", "/")
+            # pad
+            padding_needed = (4 - len(b64_fixed) % 4) % 4
+            b64_fixed += "=" * padding_needed
+            return base64.b64decode(b64_fixed, validate=True)
+        except Exception:
+            raise ValueError(f"Invalid base64 ciphertext: {e}")
+        
+@sio.on("get_credentialInfo")
+async def get_credentialInfo(data):
+    logger = setup_logger(AGENT_ID, data['exchange'], "run")
+    try:
+       folder = Path(HOME_DIR)
+       db_path = folder / DEFAULT_DB_FILENAME       
+       priv = load_rsa_private_key(priv_path)
+       cred = get_credential(db_path,data['exchange'], data['label'])
+       print("Decrypted:", decrypt_rsa_blob(priv, cred["secret_blob"]))
+
+
+       return {
+            "status": "success",
+            "bytes": decrypt_rsa_blob(priv, cred["secret_blob"]),
+            "ap_key_masked": cred["api_key_masked"]
+        }
+    except Exception as e:
+        logger.exception("PM2 removal failed")
+        print(f"[⛔ remove_pm2 error]: {e}")
+        return {
+            "status": "error",
+            "log": f"Remove PM2 process failed: {e}"
+        }
+
+@sio.on("add_exchange_credential")
+async def add_exchange_credential(data):
+    logger = setup_logger(AGENT_ID, data['exchange'], "run")
+    try:
+       folder = Path(HOME_DIR )
+       cipher_bytes = safe_base64_decode(data['api_secret_blob'])
+       save_credential(
+            db_path=folder / DEFAULT_DB_FILENAME,
+            label=data['label'],
+            exchange=data['exchange'],
+            api_key=data['api_key'],
+            api_secret_blob=cipher_bytes,
+            metadata=data.get('metadata', {})
+        )
+       logger.info("Credential added for exchange: %s", data['exchange'])
+
+
+       return {
+            "status": "success",
+            "log": "Credential added"
+        }
+    except Exception as e:
+        logger.exception("credential add failed")
+        return {
+            "status": "error",
+            "log": f"Add credential failed: {e}"
+        }
+    
+@sio.on("updateexchange_credential")
+async def updateexchange_credential(data):
+    logger = setup_logger(AGENT_ID, data['exchange'], "run")
+    try:
+       folder = Path(HOME_DIR)
+       db_path = folder / DEFAULT_DB_FILENAME 
+       update_credential_secret(
+            db_path,
+            label=data['label'],
+            exchange=data['exchange'],
+            api_key=data['api_key'],
+            api_secret_blob=data['api_secret_blob'].encode('latin1'),
+        )
+       logger.info("Credential added for exchange: %s", data['exchange'])
+
+
+       return {
+            "status": "success",
+            "log": "Credential updated"
+        }
+    except Exception as e:
+        logger.exception("Update db failed")
+        return {
+            "status": "error",
+            "log": f"Update failed: {e}"
+        }
+
+@sio.on("delete_credential")
+async def delete_credential(data):
+    logger = setup_logger(AGENT_ID, data['exchange'], "run")
+    try:
+       folder = Path(HOME_DIR)
+       db_path = folder / DEFAULT_DB_FILENAME 
+       delete_credentialdb(
+            db_path,
+            label=data['label'],
+            exchange=data['exchange']
+        )
+       logger.info("Credential deleted for exchange: %s", data['exchange'])
+
+
+       return {
+            "status": "success",
+            "log": "Credential deleted"
+        }
+    except Exception as e:
+        logger.exception("Update db failed")
+        return {
+            "status": "error",
+            "log": f"Update failed: {e}"
+        }
 
 if __name__ == "__main__":
     asyncio.run(start())
+      # demo: create db, encrypt/decrypt with RSA keys
+    # db_path = init_credentials_db(HOME_DIR)
+
+
+
+

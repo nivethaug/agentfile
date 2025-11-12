@@ -9,11 +9,50 @@ REQUIREMENTS_PATH="$VENV_BASE_DIR/requirements.txt"
 EXTRACT_DIR="$HOMEDIR/agent"
 AGENT_PATH="$EXTRACT_DIR/agent.py"
 MACHINE_ID=$(uuidgen)
+KEY_DIR="${HOMEDIR}/keys"
+PRIVATE_KEY="${KEY_DIR}/rsa_private.pem"
+PUBLIC_KEY="${KEY_DIR}/rsa_public.pem"
+BITS=4096
 
-mkdir -p "$HOMEDIR"   # ✅ ensure directory exists before writing log
+mkdir -p "$HOMEDIR" "$KEY_DIR"
+chmod 700 "$KEY_DIR"
 
+# --- check openssl ---
+if ! command -v openssl >/dev/null 2>&1; then
+  echo "Error: openssl not found. Install with: sudo apt install -y openssl" | tee -a "$LOG_FILE"
+  exit 1
+fi
+
+echo "[+] Creating keys directory: $KEY_DIR"
+
+# --- generate keys if missing ---
+if [ -f "$PRIVATE_KEY" ]; then
+  echo "[!] Private key already exists at $PRIVATE_KEY"
+else
+  echo "[+] Generating $BITS-bit RSA private key..."
+  openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:$BITS -out "$PRIVATE_KEY"
+  chmod 600 "$PRIVATE_KEY"
+
+  echo "[+] Deriving public key..."
+  openssl rsa -in "$PRIVATE_KEY" -pubout -out "$PUBLIC_KEY"
+  chmod 644 "$PUBLIC_KEY"
+fi
+
+echo
+echo "[✓] Keys ready"
+ls -l "$PRIVATE_KEY" "$PUBLIC_KEY"
+echo
+
+echo "To verify:"
+echo "  openssl rsa -in \"$PRIVATE_KEY\" -noout -modulus | openssl md5"
+echo "  openssl rsa -pubin -in \"$PUBLIC_KEY\" -noout -modulus | openssl md5"
+echo
+
+
+echo
+echo "[✓] Key generation complete."
 # Direct URL to agent.py
-AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v1.2.0/agent.py"
+AGENT_URL="https://github.com/nivethaug/agentfile/releases/download/v5.1.4/agent.py"
 
 log(){ echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"; }
 
@@ -31,7 +70,10 @@ log "Using AGENT_ID=$AGENT_ID"
 if command -v apt >/dev/null 2>&1; then
   sudo apt update -y
   sudo apt install -y --no-install-recommends \
-    curl ca-certificates python3 python3-pip python3-venv nodejs npm
+    curl ca-certificates python3 python3-pip python3-venv
+  # Install Node + npm cleanly from NodeSource (avoids Debian conflicts)
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
 elif command -v yum >/dev/null 2>&1; then
   sudo yum install -y curl ca-certificates python3 python3-pip nodejs npm
 else
@@ -75,6 +117,7 @@ httpx
 websockets
 aiohttp
 pipreqs
+cryptography
 EOF
 log "📝 requirements.txt saved at $REQUIREMENTS_PATH"
 
