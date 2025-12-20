@@ -1,4 +1,4 @@
-# server.py
+0.# server.py
 import asyncio
 from datetime import datetime
 import json
@@ -22,7 +22,7 @@ TOKEN_LIFETIME_DAYS = 7  # Default token lifetime
 
 # === CONFIGURATION ===
 AUTH_TOKEN = "bf6c405b-2901-48f3-8598-b6f1ef0b2e5a"  # Shared secret for agent registration
-Push_NOTIFICATION_KEY = ""  # FCM server key for push notifications
+Push_NOTIFICATION_KEY = "os_v2_app_wdlpptpojbhpfik7ekric6hhm4qiqixkqqeux6fjfv4myqcruvpzboetkfujhpxgb6pt43thozn5iybpf3df4i4fgy3vzl4wayqam5i"  # FCM server key for push notifications
 DB_PATH = "agents.db"
 GRAPHQL_URL = "https://whchkqogsyitogbywgve.graphql.eu-central-1.nhost.run/v1"
 HASURA_ADMIN_SECRET = "BtTjE$0+6DHvZ$54IyaPKV)eiVkz@s$E"
@@ -220,8 +220,277 @@ async def update_script_status(script_id, status, log_status):
         result = await session.execute(mutation, variable_values=variables)
         return result
 
+# Deploy script status update function
     
+@sio.on("deploy_started")
+async def on_deploy_started(sid, data):
+    """
+    data = {
+      user_id: uuid,
+      script_name: str,
+      file_path: str | None,
+      process_name: str | None,
+      type: "pm2",
+      job_id: str | None
+    }
+    """
+    print("Deployment started")
 
+    task_id = await insert_deployed_task(
+        user_id=data["user_id"],
+        script_name=data["script_name"],
+        file_path=data.get("file_path"),
+        process_name=data.get("process_name"),
+        task_type=data.get("type", "pm2"),
+        job_id=data.get("job_id"),
+        status="deploying",
+        log="Deployment started"
+    )
+
+    # Send task_id back to agent (CRITICAL)
+    await sio.emit("deploy_task_id", {"task_id": task_id}, to=sid)
+
+@sio.on("deploy_done")
+async def on_deploy_done(sid, data):
+    """
+    data = {
+      task_id: uuid,
+      pm2_process_id: int | None,
+      message: str | None
+    }
+    """
+    print("Deployment completed")
+
+    await update_deployed_task(
+        task_id=data["task_id"],
+        status="running",
+        pm2_process_id=data.get("pm2_process_id"),
+        log=data.get("message", "Deployment completed successfully"),
+        source="agent"
+    )
+
+@sio.on("deploy_failed")
+async def on_deploy_failed(sid, data):
+    """
+    data = {
+      task_id: uuid,
+      error: str
+    }
+    """
+    print(" Deployment failed")
+
+    await update_deployed_task(
+        task_id=data["task_id"],
+        status="error",
+        pm2_process_id=None,
+        log=data.get("error", "Deployment failed"),
+        source="agent"
+    )
+
+async def insert_deployed_task(
+    user_id: str,
+    script_name: str,
+    file_path: str | None,
+    process_name: str | None,
+    task_type: str,
+    job_id: str | None,
+    status: str,
+    log: str
+) -> str:
+    transport = AIOHTTPTransport(
+        url=GRAPHQL_URL,
+        headers={"x-hasura-admin-secret": HASURA_ADMIN_SECRET}
+    )
+
+    async with Client(transport=transport, fetch_schema_from_transport=True) as session:
+
+        # Step 1: Insert deployed task
+        result = await session.execute(
+            gql("""
+                mutation InsertDeployedTask(
+                  $user_id: uuid!,
+                  $script_name: String!,
+                  $file_path: String,
+                  $process_name: String,
+                  $type: String!,
+                  $job_id: String,
+                  $status: String!
+                ) {
+                  insert_deployed_tasks_one(
+                    object: {
+                      user_id: $user_id
+                      script_name: $script_name
+                      file_path: $file_path
+                      process_name: $process_name
+                      type: $type
+                      job_id: $job_id
+                      status: $status
+                    }
+                  ) {
+                    id
+                  }
+                }
+            """),
+            variable_values={
+                "user_id": user_id,
+                "script_name": script_name,
+                "file_path": file_path,
+                "process_name": process_name,
+                "type": task_type,
+                "job_id": job_id,
+                "status": status
+            }
+        )
+
+        task_id = result["insert_deployed_tasks_one"]["id"]
+
+        # Step 2: Insert initial log
+        await session.execute(
+            gql("""
+                mutation InsertDeployLog(
+                  $task_id: uuid!,
+                  $log: String!,
+                  $source: String!
+                ) {
+                  insert_deployed_task_logs_one(
+                    object: {
+                      task_id: $task_id
+                      level: "INFO"
+                      source: $source
+                      log: $log
+                    }
+                  ) {
+                    id
+                  }
+                }
+            """),
+            variable_values={
+                "task_id": task_id,
+                "log": log,
+                "source": "system"
+            }
+        )
+
+        return task_id
+
+async def update_deployed_task(
+    task_id: str,
+    status: str,
+    log: str,
+    source: str,
+    pm2_process_id: int | None = None
+):
+    transport = AIOHTTPTransport(
+        url=GRAPHQL_URL,
+        headers={"x-hasura-admin-secret": HASURA_ADMIN_SECRET}
+    )
+
+    async with Client(transport=transport, fetch_schema_from_transport=True) as session:
+
+        await session.execute(
+            gql("""
+                mutation UpdateDeployedTask(
+                  $task_id: uuid!,
+                  $status: String!,
+                  $pm2_process_id: Int,
+                  $log: String!,
+                  $source: String!
+                ) {
+                  update_deployed_tasks_by_pk(
+                    pk_columns: {id: $task_id},
+                    _set: {
+                      status: $status
+                      pm2_process_id: $pm2_process_id
+                      updated_at: now()
+                    }
+                  ) {
+                    id
+                  }
+
+                  insert_deployed_task_logs_one(
+                    object: {
+                      task_id: $task_id
+                      level: "INFO"
+                      source: $source
+                      log: $log
+                    }
+                  ) {
+                    id
+                  }
+                }
+            """),
+            variable_values={
+                "task_id": task_id,
+                "status": status,
+                "pm2_process_id": pm2_process_id,
+                "log": log,
+                "source": source
+            }
+        )
+
+@sio.on("deploy_progress")
+async def on_deploy_progress(sid, data):
+    """
+    data = {
+      task_id: uuid,
+      log: str,
+      level: INFO | ERROR | WARN,
+      source: agent | system
+    }
+    """
+    task_id = data["task_id"]
+    log = data["log"]
+    level = data.get("level", "INFO")
+    source = data.get("source", "agent")
+
+    await insert_deploy_log(
+        task_id=task_id,
+        log=log,
+        level=level,
+        source=source
+    )
+
+async def insert_deploy_log(
+    task_id: str,
+    log: str,
+    level: str = "INFO",
+    source: str = "agent"
+):
+    transport = AIOHTTPTransport(
+        url=GRAPHQL_URL,
+        headers={"x-hasura-admin-secret": HASURA_ADMIN_SECRET}
+    )
+
+    async with Client(transport=transport, fetch_schema_from_transport=True) as session:
+        await session.execute(
+            gql("""
+                mutation InsertDeployLog(
+                  $task_id: uuid!,
+                  $log: String!,
+                  $level: String!,
+                  $source: String!
+                ) {
+                  insert_deployed_task_logs_one(
+                    object: {
+                      task_id: $task_id
+                      log: $log
+                      level: $level
+                      source: $source
+                    }
+                  ) {
+                    id
+                  }
+                }
+            """),
+            variable_values={
+                "task_id": task_id,
+                "log": log,
+                "level": level,
+                "source": source
+            }
+        )
+
+# Deploy script endpoint
 # === UTILITY FUNCTION TO SEND COMMAND TO AGENT AND WAIT FOR RESPONSE ===
 async def send_to_agent(agent_id: str, event: str, payload: dict, timeout: int = 5):
     agent = agents.get(agent_id)
@@ -700,6 +969,53 @@ async def run_script(payload: dict,token_agent_id: str = Depends(verify_token_de
         raise HTTPException(status_code=404, detail="Agent not found")
     except asyncio.TimeoutError:
         raise HTTPException(status_code=504, detail="Agent response timeout")
+
+
+
+@fastapp.post("/deploy_script")
+async def deploy_script(
+    payload: dict,
+    token_agent_id: str = Depends(verify_token_dependency)
+):
+    try:
+        verify_agent_exists(payload, token_agent_id)
+
+        agent_id = payload["agent_id"]
+        user_id = payload["user_id"]
+        script_name = payload["script_name"]
+        script_path = payload["script_path"]
+
+        # 1️⃣ CREATE task_id HERE (IMPORTANT)
+        task_id = str(str(uuid.uuid4()))
+
+        # 2️⃣ INSERT deployed_tasks (status = deploying)
+        await insert_deployed_task({
+            "id": task_id,
+            "user_id": user_id,
+            "script_name": script_name,
+            "file_path": script_path,
+            "status": "deploying",
+            "type": "pm2"
+        })
+
+        # 3️⃣ FIRE-AND-FORGET to agent
+        sio.emit(
+            "deploy_script",
+            {
+                **payload,
+                "task_id": task_id   
+            },
+            to=agents[agent_id]["sid"]
+        )
+
+        # 4️⃣ RETURN IMMEDIATELY
+        return {
+            "status": "accepted",
+            "task_id": task_id
+        }
+
+    except KeyError:
+        raise HTTPException(status_code=404, detail="Agent not found")
 
 @fastapp.post("/run_install_dependency")
 async def run_install_script(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):

@@ -1812,12 +1812,172 @@ async def delete_credential(data):
             "status": "error",
             "log": f"Update failed: {e}"
         }
+async def download_and_extract_script(agent_id: str, url: str):
+    """
+    Returns: script_dir, script_id
+    Raises exception on failure
+    """
+    script_id = str(uuid.uuid4())
+    script_dir = os.path.join(SCRIPT_DIR, agent_id, script_id)
+    os.makedirs(script_dir, exist_ok=True)
+
+    async with aiohttp.ClientSession() as session:
+        zip_path, total_bytes = await _download_zip(
+            session,
+            url,
+            MAX_FILE_SIZE_BYTES
+        )
+
+    if not zipfile.is_zipfile(zip_path):
+        os.unlink(zip_path)
+        raise ValueError("Downloaded file is not a valid ZIP")
+
+    _safe_extract_zip(zip_path, script_dir)
+    os.unlink(zip_path)
+
+    return script_dir, script_id
+
+@sio.on("deploy_script")
+async def deploy_script(data):
+    logger = None
+    task_id = data.get("task_id")
+
+    try:
+        agent_id = data["agent_id"]
+        config = data.get("config", {})
+        pm2_enabled = True
+
+        script_source = data.get("script_source", "local")
+
+        # 🔽 NEW: resolve script_path dynamically
+        if script_source == "url":
+            await sio.emit("deploy_progress", {
+                "task_id": task_id,
+                "level": "INFO",
+                "source": "system",
+                "log": "Downloading script from URL..."
+            })
+
+            script_path, script_id = await download_and_extract_script(
+                agent_id,
+                data["url"]
+            )
+            script_name = script_id
+        else:
+            script_name = data["script_name"]
+            script_path = data["script_path"]
+
+        logger = setup_logger(agent_id, script_name, "deploy")
+        logger.info(f"[🚀] Starting deployment for {script_name}")
+
+        await sio.emit("deploy_progress", {
+            "task_id": task_id,
+            "level": "INFO",
+            "source": "system",
+            "log": "Deployment started"
+        })
+
+        # 1️⃣ Create .env
+        env_path = os.path.join(script_path, ".env")
+        with open(env_path, "w") as f:
+            for k, v in config.items():
+                f.write(f"{k}={v}\n")
+
+        await sio.emit("deploy_progress", {
+            "task_id": task_id,
+            "level": "INFO",
+            "source": "system",
+            "log": ".env file created"
+        })
+
+        # 2️⃣ Install dependencies
+        install_txt = os.path.join(script_path, "install.txt")
+        if os.path.exists(install_txt):
+            venv_path = os.path.join(VENV_BASE_DIR, agent_id)
+            pip_bin = os.path.join(venv_path, "bin", "pip")
+
+            if not os.path.exists(venv_path):
+                subprocess.run(["python3", "-m", "venv", venv_path], check=True)
+
+            proc = subprocess.Popen(
+                [pip_bin, "install", "-r", install_txt],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True
+            )
+
+            for line in proc.stdout:
+                await sio.emit("deploy_progress", {
+                    "task_id": task_id,
+                    "level": "INFO",
+                    "source": "agent",
+                    "log": line.strip()
+                })
+
+            proc.wait()
+            if proc.returncode != 0:
+                raise RuntimeError("Dependency installation failed")
+
+        # 3️⃣ PM2 start
+        job_id = None
+        process_name = None
+
+        if pm2_enabled:
+            main_script = (
+                os.path.join(script_path, "main.py")
+                if os.path.exists(os.path.join(script_path, "main.py"))
+                else next(
+                    (os.path.join(script_path, f)
+                     for f in os.listdir(script_path)
+                     if f.endswith(".py")),
+                    None
+                )
+            )
+
+            if not main_script:
+                raise RuntimeError("No Python entry file found")
+
+            job_id = f"{agent_id}_{uuid.uuid4().hex[:6]}"
+            python_bin = os.path.join(VENV_BASE_DIR, agent_id, "bin", "python")
+            process_name = f"{PM2_PROCESS_PREFIX}_{job_id}"
+
+            proc = subprocess.Popen(
+                ["pm2", "start", python_bin, "--name", process_name, "--", main_script],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True
+            )
+
+            for line in proc.stdout:
+                await sio.emit("deploy_progress", {
+                    "task_id": task_id,
+                    "level": "INFO",
+                    "source": "agent",
+                    "log": line.strip()
+                })
+
+            proc.wait()
+            if proc.returncode != 0:
+                raise RuntimeError("PM2 start failed")
+
+        await sio.emit("deploy_done", {
+            "task_id": task_id,
+            "job_id": job_id,
+            "process_name": process_name,
+            "message": "Deployment completed successfully"
+        })
+
+    except Exception as e:
+        if logger:
+            logger.error(str(e))
+
+        await sio.emit("deploy_failed", {
+            "task_id": task_id,
+            "error": str(e)
+        })
+
 
 if __name__ == "__main__":
     asyncio.run(start())
       # demo: create db, encrypt/decrypt with RSA keys
     # db_path = init_credentials_db(HOME_DIR)
-
-
-
-
