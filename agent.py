@@ -1839,18 +1839,26 @@ async def download_and_extract_script(agent_id: str, url: str):
 
 @sio.on("deploy_script")
 async def deploy_script(data):
+    print("\n================ DEPLOY SCRIPT EVENT RECEIVED ================")
+    print("[DEBUG] Raw data payload:", data)
+
     logger = None
     task_id = data.get("task_id")
+    print(f"[DEBUG] task_id resolved: {task_id}")
 
     try:
         agent_id = data["agent_id"]
         config = data.get("config", {})
         pm2_enabled = True
+        script_source = data.get("url")
 
-        script_source = data.get("script_source", "local")
+        print(f"[DEBUG] agent_id={agent_id}")
+        print(f"[DEBUG] script_source={script_source}")
+        print(f"[DEBUG] config keys={list(config.keys())}")
 
-        # 🔽 NEW: resolve script_path dynamically
-        if script_source == "url":
+        # 🔽 Resolve script path
+        if script_source != "local":
+            print("[DEBUG] Script source is URL — downloading")
             await sio.emit("deploy_progress", {
                 "task_id": task_id,
                 "level": "INFO",
@@ -1867,8 +1875,11 @@ async def deploy_script(data):
             script_name = data["script_name"]
             script_path = data["script_path"]
 
+        print(f"[DEBUG] script_name={script_name}")
+        print(f"[DEBUG] script_path={script_path}")
+
         logger = setup_logger(agent_id, script_name, "deploy")
-        logger.info(f"[🚀] Starting deployment for {script_name}")
+        logger.info("[DEPLOY] Starting deployment")
 
         await sio.emit("deploy_progress", {
             "task_id": task_id,
@@ -1879,9 +1890,13 @@ async def deploy_script(data):
 
         # 1️⃣ Create .env
         env_path = os.path.join(script_path, ".env")
+        print(f"[DEBUG] Writing .env → {env_path}")
+
         with open(env_path, "w") as f:
             for k, v in config.items():
                 f.write(f"{k}={v}\n")
+
+        print("[DEBUG] .env file created")
 
         await sio.emit("deploy_progress", {
             "task_id": task_id,
@@ -1892,11 +1907,17 @@ async def deploy_script(data):
 
         # 2️⃣ Install dependencies
         install_txt = os.path.join(script_path, "install.txt")
+        print(f"[DEBUG] Checking install.txt → {install_txt}")
+
         if os.path.exists(install_txt):
             venv_path = os.path.join(VENV_BASE_DIR, agent_id)
             pip_bin = os.path.join(venv_path, "bin", "pip")
 
+            print(f"[DEBUG] venv_path={venv_path}")
+            print(f"[DEBUG] pip_bin={pip_bin}")
+
             if not os.path.exists(venv_path):
+                print("[DEBUG] Creating venv")
                 subprocess.run(["python3", "-m", "venv", venv_path], check=True)
 
             proc = subprocess.Popen(
@@ -1907,6 +1928,7 @@ async def deploy_script(data):
             )
 
             for line in proc.stdout:
+                print("[PIP]", line.strip())
                 await sio.emit("deploy_progress", {
                     "task_id": task_id,
                     "level": "INFO",
@@ -1915,6 +1937,8 @@ async def deploy_script(data):
                 })
 
             proc.wait()
+            print(f"[DEBUG] pip return code={proc.returncode}")
+
             if proc.returncode != 0:
                 raise RuntimeError("Dependency installation failed")
 
@@ -1923,6 +1947,8 @@ async def deploy_script(data):
         process_name = None
 
         if pm2_enabled:
+            print("[DEBUG] PM2 enabled — resolving entry script")
+
             main_script = (
                 os.path.join(script_path, "main.py")
                 if os.path.exists(os.path.join(script_path, "main.py"))
@@ -1934,12 +1960,18 @@ async def deploy_script(data):
                 )
             )
 
+            print(f"[DEBUG] main_script={main_script}")
+
             if not main_script:
                 raise RuntimeError("No Python entry file found")
 
             job_id = f"{agent_id}_{uuid.uuid4().hex[:6]}"
             python_bin = os.path.join(VENV_BASE_DIR, agent_id, "bin", "python")
             process_name = f"{PM2_PROCESS_PREFIX}_{job_id}"
+
+            print(f"[DEBUG] PM2 job_id={job_id}")
+            print(f"[DEBUG] PM2 process_name={process_name}")
+            print(f"[DEBUG] python_bin={python_bin}")
 
             proc = subprocess.Popen(
                 ["pm2", "start", python_bin, "--name", process_name, "--", main_script],
@@ -1949,6 +1981,7 @@ async def deploy_script(data):
             )
 
             for line in proc.stdout:
+                print("[PM2]", line.strip())
                 await sio.emit("deploy_progress", {
                     "task_id": task_id,
                     "level": "INFO",
@@ -1957,8 +1990,12 @@ async def deploy_script(data):
                 })
 
             proc.wait()
+            print(f"[DEBUG] PM2 return code={proc.returncode}")
+
             if proc.returncode != 0:
                 raise RuntimeError("PM2 start failed")
+
+        print("[DEBUG] Deployment completed successfully")
 
         await sio.emit("deploy_done", {
             "task_id": task_id,
@@ -1968,6 +2005,9 @@ async def deploy_script(data):
         })
 
     except Exception as e:
+        print("[DEPLOY][ERROR] Exception caught in deploy_script")
+        print("[DEPLOY][ERROR]", str(e))
+
         if logger:
             logger.error(str(e))
 
@@ -1975,6 +2015,7 @@ async def deploy_script(data):
             "task_id": task_id,
             "error": str(e)
         })
+
 
 
 if __name__ == "__main__":

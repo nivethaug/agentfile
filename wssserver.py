@@ -250,6 +250,30 @@ async def on_deploy_started(sid, data):
     # Send task_id back to agent (CRITICAL)
     await sio.emit("deploy_task_id", {"task_id": task_id}, to=sid)
 
+async def resolve_db_task_id(job_id: str) -> str | None:
+    transport = AIOHTTPTransport(
+        url=GRAPHQL_URL,
+        headers={"x-hasura-admin-secret": HASURA_ADMIN_SECRET}
+    )
+
+    async with Client(
+        transport=transport,
+        fetch_schema_from_transport=False
+    ) as session:
+        result = await session.execute(
+            gql("""
+                query ResolveTask($job_id: String!) {
+                  deployed_tasks(where: {job_id: {_eq: $job_id}}, limit: 1) {
+                    id
+                  }
+                }
+            """),
+            variable_values={"job_id": job_id}
+        )
+
+        rows = result["deployed_tasks"]
+        return rows[0]["id"] if rows else None
+
 @sio.on("deploy_done")
 async def on_deploy_done(sid, data):
     """
@@ -260,11 +284,11 @@ async def on_deploy_done(sid, data):
     }
     """
     print("Deployment completed")
-
+    db_task_id = await resolve_db_task_id(data["task_id"])
     await update_deployed_task(
-        task_id=data["task_id"],
+        task_id=db_task_id,
         status="running",
-        pm2_process_id=data.get("pm2_process_id"),
+        pm2_process_id=data.get("job_id"),
         log=data.get("message", "Deployment completed successfully"),
         source="agent"
     )
@@ -278,14 +302,15 @@ async def on_deploy_failed(sid, data):
     }
     """
     print(" Deployment failed")
-
+    b_task_id = await resolve_db_task_id(data["task_id"])
     await update_deployed_task(
-        task_id=data["task_id"],
+        task_id=b_task_id,
         status="error",
         pm2_process_id=None,
         log=data.get("error", "Deployment failed"),
         source="agent"
     )
+
 
 async def insert_deployed_task(
     user_id: str,
@@ -302,83 +327,98 @@ async def insert_deployed_task(
         headers={"x-hasura-admin-secret": HASURA_ADMIN_SECRET}
     )
 
-    async with Client(transport=transport, fetch_schema_from_transport=True) as session:
+    try:
+        async with Client(
+            transport=transport,
+            fetch_schema_from_transport=True
+        ) as session:
 
-        # Step 1: Insert deployed task
-        result = await session.execute(
-            gql("""
-                mutation InsertDeployedTask(
-                  $user_id: uuid!,
-                  $script_name: String!,
-                  $file_path: String,
-                  $process_name: String,
-                  $type: String!,
-                  $job_id: String,
-                  $status: String!
-                ) {
-                  insert_deployed_tasks_one(
-                    object: {
-                      user_id: $user_id
-                      script_name: $script_name
-                      file_path: $file_path
-                      process_name: $process_name
-                      type: $type
-                      job_id: $job_id
-                      status: $status
+            print("[DEPLOY] Inserting deployed task...")
+            
+            # Step 1: Insert deployed task
+            result = await session.execute(
+                gql("""
+                    mutation InsertDeployedTask(
+                      $user_id: uuid!,
+                      $script_name: String!,
+                      $file_path: String,
+                      $process_name: String,
+                      $type: String!,
+                      $job_id: String,
+                      $status: String!
+                    ) {
+                      insert_deployed_tasks_one(
+                        object: {
+                          user_id: $user_id
+                          script_name: $script_name
+                          file_path: $file_path
+                          process_name: $process_name
+                          type: $type
+                          job_id: $job_id
+                          status: $status
+                        }
+                      ) {
+                        id
+                      }
                     }
-                  ) {
-                    id
-                  }
+                """),
+                variable_values={
+                    "user_id": user_id,
+                    "script_name": script_name,
+                    "file_path": file_path,
+                    "process_name": process_name,
+                    "type": task_type,
+                    "job_id": job_id,
+                    "status": status
                 }
-            """),
-            variable_values={
-                "user_id": user_id,
-                "script_name": script_name,
-                "file_path": file_path,
-                "process_name": process_name,
-                "type": task_type,
-                "job_id": job_id,
-                "status": status
-            }
-        )
+            )
 
-        task_id = result["insert_deployed_tasks_one"]["id"]
+            task_id = result["insert_deployed_tasks_one"]["id"]
+            print(f"[DEPLOY] Task inserted successfully → task_id={task_id}")
 
-        # Step 2: Insert initial log
-        await session.execute(
-            gql("""
-                mutation InsertDeployLog(
-                  $task_id: uuid!,
-                  $log: String!,
-                  $source: String!
-                ) {
-                  insert_deployed_task_logs_one(
-                    object: {
-                      task_id: $task_id
-                      level: "INFO"
-                      source: $source
-                      log: $log
+            # Step 2: Insert initial log
+            print("[DEPLOY] Inserting initial deploy log...")
+            await session.execute(
+                gql("""
+                    mutation InsertDeployLog(
+                      $task_id: uuid!,
+                      $log: String!,
+                      $source: String!
+                    ) {
+                      insert_deployed_task_logs_one(
+                        object: {
+                          task_id: $task_id
+                          level: "INFO"
+                          source: $source
+                          log: $log
+                        }
+                      ) {
+                        id
+                      }
                     }
-                  ) {
-                    id
-                  }
+                """),
+                variable_values={
+                    "task_id": task_id,
+                    "log": log,
+                    "source": "system"
                 }
-            """),
-            variable_values={
-                "task_id": task_id,
-                "log": log,
-                "source": "system"
-            }
-        )
+            )
 
-        return task_id
+            print("[DEPLOY] Initial log inserted successfully")
+            return task_id
+
+    except Exception as e:
+        print("[DEPLOY][ERROR] Failed to insert deployed task or log")
+        print(f"[DEPLOY][ERROR] {e}")
+        traceback.print_exc()
+        raise
 
 async def update_deployed_task(
     task_id: str,
     status: str,
     log: str,
     source: str,
-    pm2_process_id: int | None = None
+    pm2_process_id: str | None = None
 ):
     transport = AIOHTTPTransport(
         url=GRAPHQL_URL,
@@ -387,46 +427,48 @@ async def update_deployed_task(
 
     async with Client(transport=transport, fetch_schema_from_transport=True) as session:
 
-        await session.execute(
-            gql("""
-                mutation UpdateDeployedTask(
-                  $task_id: uuid!,
-                  $status: String!,
-                  $pm2_process_id: Int,
-                  $log: String!,
-                  $source: String!
-                ) {
-                  update_deployed_tasks_by_pk(
-                    pk_columns: {id: $task_id},
-                    _set: {
-                      status: $status
-                      pm2_process_id: $pm2_process_id
-                      updated_at: now()
-                    }
-                  ) {
-                    id
-                  }
-
-                  insert_deployed_task_logs_one(
-                    object: {
-                      task_id: $task_id
-                      level: "INFO"
-                      source: $source
-                      log: $log
-                    }
-                  ) {
-                    id
-                  }
-                }
-            """),
-            variable_values={
-                "task_id": task_id,
-                "status": status,
-                "pm2_process_id": pm2_process_id,
-                "log": log,
-                "source": source
+       await session.execute(
+    gql("""
+        mutation UpdateDeployedTask(
+          $task_id: uuid!,
+          $status: String!,
+          $pm2_process_id: String,
+          $log: String!,
+          $source: String!
+        ) {
+          update_deployed_tasks_by_pk(
+            pk_columns: {id: $task_id},
+            _set: {
+              status: $status
+              job_id: $pm2_process_id
             }
-        )
+          ) {
+            id
+          }
+
+          insert_deployed_task_logs_one(
+            object: {
+              task_id: $task_id
+              level: "INFO"
+              source: $source
+              log: $log
+            }
+          ) {
+            id
+          }
+        }
+    """),
+    variable_values={
+        "task_id": task_id,
+        "status": status,
+        "pm2_process_id": pm2_process_id,
+        "log": log,
+        "source": source
+    }
+)
+
+
+
 
 @sio.on("deploy_progress")
 async def on_deploy_progress(sid, data):
@@ -442,9 +484,10 @@ async def on_deploy_progress(sid, data):
     log = data["log"]
     level = data.get("level", "INFO")
     source = data.get("source", "agent")
+    db_task_id = await resolve_db_task_id(task_id)
 
     await insert_deploy_log(
-        task_id=task_id,
+        task_id=db_task_id,
         log=log,
         level=level,
         source=source
@@ -989,17 +1032,20 @@ async def deploy_script(
         task_id = str(str(uuid.uuid4()))
 
         # 2️⃣ INSERT deployed_tasks (status = deploying)
-        await insert_deployed_task({
-            "id": task_id,
-            "user_id": user_id,
-            "script_name": script_name,
-            "file_path": script_path,
-            "status": "deploying",
-            "type": "pm2"
-        })
+        id=await insert_deployed_task(
+        user_id=user_id,
+        script_name=script_name,
+        file_path=script_path,
+        process_name="bg_agent-42e200f3-9cd6-44ee-a66a-0bab14d3490c_febebbe9-e75f-46d9-aca7-cbfd463d76a8_da233d",
+        task_type="pm2",
+        job_id=task_id,
+        status="deploying",
+        log=""
+    )
+
 
         # 3️⃣ FIRE-AND-FORGET to agent
-        sio.emit(
+        await sio.emit(
             "deploy_script",
             {
                 **payload,
@@ -1014,7 +1060,10 @@ async def deploy_script(
             "task_id": task_id
         }
 
-    except KeyError:
+    except Exception as e:
+        print("[DEPLOY][ERROR] Failed to insert deployed task or log")
+        print(f"[DEPLOY][ERROR] {e}")
+
         raise HTTPException(status_code=404, detail="Agent not found")
 
 @fastapp.post("/run_install_dependency")
