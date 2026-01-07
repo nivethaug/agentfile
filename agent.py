@@ -1717,7 +1717,6 @@ async def get_credentialInfo(data):
        db_path = folder / DEFAULT_DB_FILENAME       
        priv = load_rsa_private_key(priv_path)
        cred = get_credential(db_path,data['exchange'], data['label'])
-       print("Decrypted:", decrypt_rsa_blob(priv, cred["secret_blob"]))
 
 
        return {
@@ -1733,6 +1732,28 @@ async def get_credentialInfo(data):
             "log": f"Remove PM2 process failed: {e}"
         }
 
+async def get_credential(data):
+    logger = setup_logger(AGENT_ID, data['exchange'], "run")
+    try:
+       folder = Path(HOME_DIR)
+       db_path = folder / DEFAULT_DB_FILENAME       
+       priv = load_rsa_private_key(priv_path)
+       cred = get_credential(db_path,data['exchange'], data['label'])
+
+
+       return {
+            "api_key": cred["api_key"],
+            "secret": decrypt_rsa_blob(priv, cred["secret_blob"]),
+            "api_key_masked": cred["api_key_masked"]
+        }
+    except Exception as e:
+        logger.exception("PM2 removal failed")
+        print(f"[⛔ remove_pm2 error]: {e}")
+        return {
+            "status": "error",
+            "log": f"Remove PM2 process failed: {e}"
+        }
+    
 @sio.on("add_exchange_credential")
 async def add_exchange_credential(data):
     logger = setup_logger(AGENT_ID, data['exchange'], "run")
@@ -1878,7 +1899,7 @@ async def deploy_script(data):
         print(f"[DEBUG] script_name={script_name}")
         print(f"[DEBUG] script_path={script_path}")
 
-        logger = setup_logger(agent_id, script_name, "deploy")
+        logger = setup_logger(agent_id, script_name, "task", task_id)
         logger.info("[DEPLOY] Starting deployment")
 
         await sio.emit("deploy_progress", {
@@ -1898,6 +1919,129 @@ async def deploy_script(data):
 
         print("[DEBUG] .env file created")
 
+                # Process exchange credentials if present in config
+        exchanges = config.get("exchanges", [])
+        if exchanges:
+            await sio.emit("deploy_progress", {
+                "task_id": task_id,
+                "level": "INFO",
+                "source": "system",
+                "log": f"Processing credentials for {len(exchanges)} exchange(s)..."
+            })
+            
+            with open(env_path, "a") as f:  # Append to existing .env
+                for exchange in exchanges:
+                    exchange_id = exchange.get("id")
+                    api_key_id = exchange.get("api_key_id")
+                    
+                    if not exchange_id or not api_key_id:
+                        logger.warning(f"Skipping exchange with missing id or api_key_id: {exchange}")
+                        continue
+                    
+                    try:
+                        logger.info(f"Retrieving credentials for exchange: {exchange_id} (label: {api_key_id})")
+                        
+                        # Call get_credential function
+                        cred_result = await get_credential({
+                            "exchange": exchange_id,
+                            "label": api_key_id
+                        })
+                        
+                        if cred_result.get("status") == "error":
+                            logger.error(f"Failed to get credentials for {exchange_id}: {cred_result.get('log')}")
+                            await sio.emit("deploy_progress", {
+                                "task_id": task_id,
+                                "level": "ERROR",
+                                "source": "system",
+                                "log": f"Failed to retrieve credentials for {exchange_id}: {cred_result.get('log')}"
+                            })
+                            continue
+                        
+                        # Write credentials to .env with specified naming convention
+                        api_key = cred_result.get("api_key")
+                        secret = cred_result.get("secret")
+                        
+                        if api_key and secret:
+                            f.write(f"\n# Exchange credentials for {exchange.get('name', exchange_id)}\n")
+                            f.write(f"{api_key_id}={api_key}\n")
+                            f.write(f"{exchange_id}={secret}\n")
+                            
+                            logger.info(f"Added credentials for {exchange_id} to .env")
+                            await sio.emit("deploy_progress", {
+                                "task_id": task_id,
+                                "level": "INFO",
+                                "source": "system",
+                                "log": f"Added credentials for {exchange.get('name', exchange_id)}"
+                            })
+                        else:
+                            logger.error(f"Missing api_key or secret for {exchange_id}")
+                            
+                    except Exception as e:
+                        logger.exception(f"Error processing credentials for exchange {exchange_id}")
+                        await sio.emit("deploy_progress", {
+                            "task_id": task_id,
+                            "level": "ERROR",
+                            "source": "system",
+                            "log": f"Error processing credentials for {exchange_id}: {str(e)}"
+                        })
+                        continue
+
+        # Process Telegram credentials if present in config
+        telegram_config = config.get("telegram")
+        if telegram_config:
+            await sio.emit("deploy_progress", {
+                "task_id": task_id,
+                "level": "INFO",
+                "source": "system",
+                "log": "Processing Telegram credentials..."
+            })
+            
+            try:
+                logger.info(f"Retrieving Telegram credentials with label: {telegram_config}")
+                
+                # Call get_credential function for Telegram
+                telegram_cred_result = await get_credential({
+                    "exchange": "telegram",
+                    "label": telegram_config
+                })
+                
+                if telegram_cred_result.get("status") == "error":
+                    logger.error(f"Failed to get Telegram credentials: {telegram_cred_result.get('log')}")
+                    await sio.emit("deploy_progress", {
+                        "task_id": task_id,
+                        "level": "ERROR",
+                        "source": "system",
+                        "log": f"Failed to retrieve Telegram credentials: {telegram_cred_result.get('log')}"
+                    })
+                else:
+                    # Write Telegram credentials to .env with specific naming
+                    telegram_api_key = telegram_cred_result.get("api_key")
+                    telegram_secret = telegram_cred_result.get("secret")
+                    
+                    if telegram_api_key and telegram_secret:
+                        with open(env_path, "a") as f:  # Append to existing .env
+                            f.write(f"\n# Telegram credentials\n")
+                            f.write(f"telegram_chat_id={telegram_api_key}\n")
+                            f.write(f"telegram_bot_token={telegram_secret}\n")
+                        
+                        logger.info("Added Telegram credentials to .env")
+                        await sio.emit("deploy_progress", {
+                            "task_id": task_id,
+                            "level": "INFO",
+                            "source": "system",
+                            "log": "Added Telegram credentials"
+                        })
+                    else:
+                        logger.error("Missing Telegram api_key or secret")
+                        
+            except Exception as e:
+                logger.exception("Error processing Telegram credentials")
+                await sio.emit("deploy_progress", {
+                    "task_id": task_id,
+                    "level": "ERROR",
+                    "source": "system",
+                    "log": f"Error processing Telegram credentials: {str(e)}"
+                })
         await sio.emit("deploy_progress", {
             "task_id": task_id,
             "level": "INFO",
@@ -2001,6 +2145,8 @@ async def deploy_script(data):
             "task_id": task_id,
             "job_id": job_id,
             "process_name": process_name,
+            "script_path": script_path,
+            "script_id": script_name,
             "message": "Deployment completed successfully"
         })
 
@@ -2016,6 +2162,100 @@ async def deploy_script(data):
             "error": str(e)
         })
 
+@sio.on("remove_deployed_script")
+async def on_remove_deployed_script(data):
+    """
+    data = {
+        script_id: str,
+        job_id: str,
+        script_path: str
+    }
+    """
+
+    script_id = data["script_id"]
+    job_id = data["job_id"]
+    script_path = data.get("script_path")
+    process_name = data.get("process_name")
+
+    logger = setup_logger(AGENT_ID, script_id, "task", job_id)
+
+    try:
+        # 1️⃣ Stop & delete PM2 process (blocking)
+        subprocess.run(
+            ["pm2", "delete", process_name],
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+
+        logger.info("PM2 process removed")
+        print(f"[🗑️] PM2 process removed: {process_name}")
+
+        # 2️⃣ Validate script path
+        if not script_path or not os.path.exists(script_path):
+            raise RuntimeError("Script path does not exist")
+
+        # 🔒 Safety check (VERY IMPORTANT)
+        BASE_DIR = "/root/agents"  # adjust to your real base directory
+        real_path = os.path.realpath(script_path)
+
+        await on_delete_file({
+            "path": real_path,
+            "is_folder": True
+        })
+        print(f"[🗑️] Script folder deleted: {real_path}")
+
+        return {
+            "status": "success",
+            "log": "Deployment removed successfully"
+        }
+
+    except Exception as e:
+        logger.exception("Deployment removal failed")
+        print(f"[⛔ remove_deployed_script error]: {e}")
+
+        return {
+            "status": "error",
+            "log": f"Deployment removal failed: {e}"
+        }
+
+@sio.on("toggle_task")
+async def on_toggle_task(data):
+    script_id = data['script_id']
+    job_id = data['job_id']
+    action = data['action']  # "pause" or "play"
+    logger = setup_logger(AGENT_ID, script_id, "task", job_id)
+    process_name = data.get("process_name")
+
+
+    try:
+        if action == "pause":
+            subprocess.run(["pm2", "stop", f"{process_name}"], check=True)
+            logger.info("PM2 process paused")
+            print(f"[⏸️] PM2 process paused: {job_id}")
+        elif action == "play":
+            subprocess.run(["pm2", "start", f"{process_name}"], check=True)
+            logger.info("PM2 process resumed")
+            print(f"[▶️] PM2 process resumed: {job_id}")
+        else:
+            return {
+                "status": "error",
+                "log": f"Unknown action '{action}'"
+            }
+
+        return {
+            "status": "success",
+            "log": f"PM2 process {action}d"
+        }
+
+    except Exception as e:
+        logger.exception("Toggle PM2 failed")
+        print(f"[⛔ toggle_pm2 error]: {e}")
+        return {
+            "status": "error",
+            "log": f"Toggle PM2 failed: {e}"
+        }
 
 
 if __name__ == "__main__":

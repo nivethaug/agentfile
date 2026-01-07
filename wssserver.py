@@ -290,7 +290,9 @@ async def on_deploy_done(sid, data):
         status="running",
         pm2_process_id=data.get("job_id"),
         log=data.get("message", "Deployment completed successfully"),
-        source="agent"
+        source="agent",
+        script_path=data.get("script_path"),
+        script_id=data.get("script_id")
     )
 
 @sio.on("deploy_failed")
@@ -418,7 +420,9 @@ async def update_deployed_task(
     status: str,
     log: str,
     source: str,
-    pm2_process_id: str | None = None
+    script_path: str | None = None,
+    pm2_process_id: str | None = None,
+    script_id: str | None = None
 ):
     transport = AIOHTTPTransport(
         url=GRAPHQL_URL,
@@ -432,15 +436,19 @@ async def update_deployed_task(
         mutation UpdateDeployedTask(
           $task_id: uuid!,
           $status: String!,
-          $pm2_process_id: String,
           $log: String!,
           $source: String!
+          $name: String!
+          $script_path: String!
+          $script_id: uuid
         ) {
           update_deployed_tasks_by_pk(
             pk_columns: {id: $task_id},
             _set: {
               status: $status
-              job_id: $pm2_process_id
+              process_name: $name
+              file_path: $script_path
+              script_id: $script_id
             }
           ) {
             id
@@ -461,9 +469,12 @@ async def update_deployed_task(
     variable_values={
         "task_id": task_id,
         "status": status,
-        "pm2_process_id": pm2_process_id,
         "log": log,
-        "source": source
+        "source": source,
+        "name": f"bg_{pm2_process_id}" if pm2_process_id else "bg_",
+        "script_path": script_path,
+        "script_id": script_id
+
     }
 )
 
@@ -1036,7 +1047,7 @@ async def deploy_script(
         user_id=user_id,
         script_name=script_name,
         file_path=script_path,
-        process_name="bg_agent-42e200f3-9cd6-44ee-a66a-0bab14d3490c_febebbe9-e75f-46d9-aca7-cbfd463d76a8_da233d",
+        process_name="bg_",
         task_type="pm2",
         job_id=task_id,
         status="deploying",
@@ -1065,6 +1076,27 @@ async def deploy_script(
         print(f"[DEPLOY][ERROR] {e}")
 
         raise HTTPException(status_code=404, detail="Agent not found")
+@fastapp.post("/remove_task")
+async def remove_task(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
+    try:
+        verify_agent_exists(payload, token_agent_id)
+        res = await sio.call("remove_deployed_script", payload, to=agents[payload["agent_id"]]["sid"])
+        return res
+    except KeyError:
+        raise HTTPException(status_code=404, detail="Agent not found")
+    except asyncio.TimeoutError:
+        raise HTTPException(status_code=504, detail="Agent response timeout")
+
+@fastapp.post("/toggle_task")
+async def toggle_task(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
+    try:
+        verify_agent_exists(payload, token_agent_id)
+        res = await sio.call("toggle_task", payload, to=agents[payload["agent_id"]]["sid"])
+        return res
+    except KeyError:
+        raise HTTPException(status_code=404, detail="Agent not found")
+    except asyncio.TimeoutError:
+        raise HTTPException(status_code=504, detail="Agent response timeout")
 
 @fastapp.post("/run_install_dependency")
 async def run_install_script(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
@@ -1141,6 +1173,7 @@ async def remove_cron(payload: dict,token_agent_id: str = Depends(verify_token_d
         raise HTTPException(status_code=404, detail="Agent not found")
     except asyncio.TimeoutError:
         raise HTTPException(status_code=504, detail="Agent response timeout")
+    
 
 @fastapp.post("/get_logs")
 async def get_logs(payload: dict,token_agent_id: str = Depends(verify_token_dependency)):
